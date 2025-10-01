@@ -1,0 +1,43 @@
+[project]
+name = "eye-track-vibecoding"
+version = "0.1.0"
+description = "跨平台人脸/眼动追踪原型（Python + Flet）"
+requires-python = ">=3.11"
+dependencies = ["flet[all]==0.28.3", "opencv-python>=4.7.0", "numpy>=1.24.0"]
+
+[project.scripts]
+eye-track = "app.main:cli"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "coverage>=7.0", "ruff>=0.4.0", "black>=24.3.0"]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = ["E", "F", "I", "B", "W", "UP", "I001"]
+ignore = []
+exclude = ["papers/"]
+
+[tool.ruff.isort]
+known-first-party = ["app", "core", "services"]
+force-single-line = false
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests*"]

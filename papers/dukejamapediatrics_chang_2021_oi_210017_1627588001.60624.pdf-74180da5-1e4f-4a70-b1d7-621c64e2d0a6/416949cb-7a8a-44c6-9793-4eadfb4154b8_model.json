@@ -1,0 +1,2750 @@
+[
+    [
+        {
+            "type": "header",
+            "bbox": [
+                0.115,
+                0.039,
+                0.164,
+                0.049
+            ],
+            "angle": 0,
+            "content": "Research"
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.114,
+                0.077,
+                0.377,
+                0.092
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatrics | Original Investigation"
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.114,
+                0.096,
+                0.666,
+                0.141
+            ],
+            "angle": 0,
+            "content": "Computational Methods to Measure Patterns of Gaze in Toddlers With Autism Spectrum Disorder"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.152,
+                0.681,
+                0.216
+            ],
+            "angle": 0,
+            "content": "Zhuoqing Chang, PhD; J. Matias Di Martino, PhD; Rachel Aiello, PhD; Jeffrey Baker, MD, PhD; Kimberly Carpenter, PhD; Scott Compton, PhD; Naomi Davis, PhD; Brian Eichner, MD; Steven Espinosa, BSc; Jacqueline Flowers, PhD; Lauren Franz, MBChB, MPH; Adrienne Harris, MA; Jill Howard, PhD; Sam Perochon, MS; Eliana M. Perrin, MD, MPH; Pradeep Raj Krishnappa Babu, PhD; Marina Spanos, PhD; Connor Sullivan, PhD; Barbara K. Walter, PhD, MPH; Scott H. Kollins, PhD; Geraldine Dawson, PhD; Guillermo Sapiro, PhD"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.133,
+                0.247,
+                0.66,
+                0.305
+            ],
+            "angle": 0,
+            "content": "IMPORTANCE Atypical eye gaze is an early-emerging symptom of autism spectrum disorder (ASD) and holds promise for autism screening. Current eye-tracking methods are expensive and require special equipment and calibration. There is a need for scalable, feasible methods for measuring eye gaze."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.133,
+                0.312,
+                0.653,
+                0.37
+            ],
+            "angle": 0,
+            "content": "OBJECTIVE Using computational methods based on computer vision analysis, we evaluated whether an app deployed on an iPhone or iPad that displayed strategically designed brief movies could elicit and quantify differences in eye-gaze patterns of toddlers with ASD vs typical development."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.133,
+                0.377,
+                0.667,
+                0.507
+            ],
+            "angle": 0,
+            "content": "DESIGN, SETTING, AND PARTICIPANTS A prospective study in pediatric primary care clinics was conducted from December 2018 to March 2020, comparing toddlers with and without ASD. Caregivers of 1564 toddlers were invited to participate during a well-child visit. A total of 993 toddlers (63%) completed study measures. Enrollment criteria were aged 16 to 38 months, healthy, English- or Spanish-speaking caregiver, and toddler able to sit and view the app. Participants were screened with the Modified Checklist for Autism in Toddlers-Revised With Follow-up during routine care. Children were referred by their pediatrician for diagnostic evaluation based on results of the checklist or if the caregiver or pediatrician was concerned. Forty toddlers subsequently were diagnosed with ASD."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.134,
+                0.515,
+                0.493,
+                0.528
+            ],
+            "angle": 0,
+            "content": "EXPOSURES A mobile app displayed on a smartphone or tablet."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.133,
+                0.536,
+                0.585,
+                0.579
+            ],
+            "angle": 0,
+            "content": "MAIN OUTCOMES AND MEASURES Computer vision analysis quantified eye-gaze patterns elicited by the app, which were compared between toddlers with ASD vs typical development."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.133,
+                0.586,
+                0.647,
+                0.687
+            ],
+            "angle": 0,
+            "content": "RESULTS Mean age of the sample was 21.1 months (range, 17.1-36.9 months), and \\(50.6\\%\\) were boys, \\(59.8\\%\\) White individuals, \\(16.5\\%\\) Black individuals, \\(23.7\\%\\) other race, and \\(16.9\\%\\) Hispanic/Latino individuals. Distinctive eye-gaze patterns were detected in toddlers with ASD, characterized by reduced gaze to social stimuli and to salient social moments during the movies, and previously unknown deficits in coordination of gaze with speech sounds. The area under the receiver operating characteristic curve discriminating ASD vs non-ASD using multiple gaze features was 0.90 (95% CI, 0.82-0.97)."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.133,
+                0.695,
+                0.622,
+                0.753
+            ],
+            "angle": 0,
+            "content": "CONCLUSIONS AND RELEVANCE The app reliably measured both known and new gaze biomarkers that distinguished toddlers with ASD vs typical development. These novel results may have potential for developing scalable autism screening tools, exportable to natural settings, and enabling data sets amenable to machine learning."
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.703,
+                0.232,
+                0.721,
+                0.247
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.723,
+                0.232,
+                0.842,
+                0.244
+            ],
+            "angle": 0,
+            "content": "Supplemental content"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.701,
+                0.811,
+                0.881,
+                0.844
+            ],
+            "angle": 0,
+            "content": "Author Affiliations: Author affiliations are listed at the end of this article."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.701,
+                0.849,
+                0.866,
+                0.917
+            ],
+            "angle": 0,
+            "content": "Corresponding Author: Geraldine Dawson, PhD, Duke Center for Autism and Brain Development, Duke University, 2608 Erwin Rd, Ste 300, Durham, NC 27705 (geraldine.dawson@duke.edu)."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.133,
+                0.894,
+                0.489,
+                0.917
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatr. 2021;175(8):827-836. doi:10.1001/jamapediatrics.2021.0530  \nPublished online April 26, 2021."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.321,
+                0.957,
+                0.674,
+                0.97
+            ],
+            "angle": 0,
+            "content": "© 2021 American Medical Association. All rights reserved."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.002,
+                0.976,
+                0.643,
+                0.99
+            ],
+            "angle": 0,
+            "content": "Downloaded from jamanetwork.com by Shanghai Jiao Tong University School of Medicine user on 07/17/2025"
+        },
+        {
+            "type": "page_number",
+            "bbox": [
+                0.904,
+                0.942,
+                0.927,
+                0.952
+            ],
+            "angle": 0,
+            "content": "827"
+        }
+    ],
+    [
+        {
+            "type": "header",
+            "bbox": [
+                0.115,
+                0.038,
+                0.274,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Research Original Investigation"
+        },
+        {
+            "type": "header",
+            "bbox": [
+                0.531,
+                0.038,
+                0.882,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Computational Methods to Measure Patterns of Gaze in Toddlers With ASD"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.077,
+                0.493,
+                0.397
+            ],
+            "angle": 0,
+            "content": "Humans have neural circuits that direct their gaze to salient social information, including others' faces and eyes, facial expressions, voices, and gestures. A cortical network involving the inferior occipital gyrus, fusiform gyrus, superior temporal sulcus, and amygdala underlies perception of facial features and expressions, which interacts with regions involving reward, such as the ventral striatum, contributing to attentional preferences. Infants' early attention to other people promotes learning about the social world through interaction with others. Autism spectrum disorder (ASD) is a neurodevelopmental condition characterized by decreased spontaneous visual attention to social stimuli, evident by 6 months of age. Diminished social visual engagement with others influences the early development of social brain circuitry and has been hypothesized to contribute to later deficits in social and communicative abilities associated with autism. Early intervention that promotes social engagement can potentially mitigate the cascading effects of reduced social attention on brain and behavioral development, leading to improved outcomes. Thus, there is a need for reliable, feasible methods for measuring gaze to facilitate early ASD detection."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.112,
+                0.397,
+                0.491,
+                0.527
+            ],
+            "angle": 0,
+            "content": "Current methods for measuring gaze require specialized expensive equipment, calibration, and trained personnel, limiting their use for universal ASD screening, especially in low-resource settings.[9,10] Caregiver-report ASD screening questionnaires include questions about social attention, but they require literacy and have lower performance with caregivers from minority racial/ethnic backgrounds and lower education.[11,12] This disparity is notable, given documented delays in ASD screening and diagnosis of Black children.[13]"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.112,
+                0.527,
+                0.492,
+                0.701
+            ],
+            "angle": 0,
+            "content": "We developed a digital assessment tool for gaze monitoring that can be delivered on widely available devices by designing an app consisting of brief movies shown on an iPhone or iPad while the child's behavior is recorded via the frontal camera embedded in the device, and using computer vision analysis to quantify eye-gaze patterns. The movies were strategically designed to assess social attention based on a priori hypotheses. No calibration, special equipment, or controlled environment was needed. We demonstrated that this tool reliably measures both known and novel social attention gaze biomarkers that distinguish toddlers with ASD vs typical development."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.114,
+                0.736,
+                0.186,
+                0.75
+            ],
+            "angle": 0,
+            "content": "Methods"
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.114,
+                0.76,
+                0.194,
+                0.773
+            ],
+            "angle": 0,
+            "content": "Participants"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.773,
+                0.492,
+                0.918
+            ],
+            "angle": 0,
+            "content": "A total of 1564 caregivers were invited to participate in the study during a well-child primary care visit. Inclusion criteria were aged 16 to 38 months, not ill, and caregiver language of English or Spanish. Exclusionary criteria were sensory or motor impairment that precluded sitting or viewing the app. A total of 993 toddlers (63%) met enrollment criteria and completed study measures (see study flow diagram in eFigure 1 in the Supplement). Mean age of the study sample was 21.1 months (range, 17.1-36.9 months), and \\(50.6\\%\\) were boys. Caregiver-reported race/ethnicity, in accordance with National Insti"
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.525,
+                0.094,
+                0.597,
+                0.108
+            ],
+            "angle": 0,
+            "content": "Key Points"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.524,
+                0.113,
+                0.848,
+                0.163
+            ],
+            "angle": 0,
+            "content": "Question Using computational methods based on computer vision analysis, can a smartphone or tablet be used in real-world settings to reliably detect early symptoms of autism spectrum disorder?"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.524,
+                0.171,
+                0.86,
+                0.248
+            ],
+            "angle": 0,
+            "content": "Findings In this study, a mobile device application deployed on a smartphone or tablet and used during a pediatric visit detected distinctive eye-gaze patterns in toddlers with autism spectrum disorder compared with typically developing toddlers, which were characterized by reduced attention to social stimuli and deficits in coordinating gaze with speech sounds."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.524,
+                0.254,
+                0.84,
+                0.293
+            ],
+            "angle": 0,
+            "content": "Meaning These methods may have potential for developing scalable autism screening tools, exportable to natural settings, and enabling data sets amenable to machine learning."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.324,
+                0.885,
+                0.483
+            ],
+            "angle": 0,
+            "content": "tutes of Health categories, was \\(59.8\\%\\) White individuals, \\(16.5\\%\\) Black individuals, \\(23.7\\%\\) other race, and \\(16.9\\%\\) Hispanic/Latino individuals. A total of \\(75.7\\%\\) of caregivers had a college degree, \\(19.6\\%\\) had at least a high school education, and \\(4.6\\%\\) did not have a high school education. Reasons for exclusion were not meeting enrollment criteria, not interested, needing to take care of a sibling, not enough time, child too upset, and incomplete app or clinical information. Caregivers and legal guardians provided written informed consent, and the study was approved by the Duke University Health System institutional review board."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.506,
+                0.499,
+                0.571,
+                0.512
+            ],
+            "angle": 0,
+            "content": "Measures"
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.513,
+                0.816,
+                0.527
+            ],
+            "angle": 0,
+            "content": "Modified Checklist for Toddlers-Revised With Follow-up"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.527,
+                0.882,
+                0.614
+            ],
+            "angle": 0,
+            "content": "Caregivers completed the Modified Checklist for Toddlers-Revised With Follow-up (M-CHAT-R/F)\\(^{11}\\) during the well-child visit when the app was administered. M-CHAT-R/F consists of 20 questions about the presence or absence of autism symptoms, with a total score of 0 to 2 indicating low risk. Medium-risk scores (3-7) require follow-up questions."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.63,
+                0.795,
+                0.642
+            ],
+            "angle": 0,
+            "content": "Referral Determination and Diagnostic Assessments"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.643,
+                0.882,
+                0.744
+            ],
+            "angle": 0,
+            "content": "Children whose scores revealed risk for ASD on the M-CHAT-R/F or whose caregiver or physician expressed a concern subsequently were referred by their physician for a diagnostic evaluation conducted by a licensed and research-reliable psychologist. The evaluation included the Autism Diagnostic Observation Schedule-Second Edition (ADOS-2)[14] and Mullen Scales of Early Learning.[15]"
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.761,
+                0.551,
+                0.773
+            ],
+            "angle": 0,
+            "content": "Groups"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.773,
+                0.884,
+                0.918
+            ],
+            "angle": 0,
+            "content": "Demographic and clinical characteristics of 3 subgroups are shown in eTable 1 in the Supplement. The 3 subgroups were defined as follows: the ASD group \\((n = 40)\\) were children referred for evaluation and who met Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition criteria for ASD. Seventeen of 40 children \\((42.5\\%)\\) had delayed nonverbal cognitive ability, defined as a score of 30 or less on the Mullen Visual Reception scale. The developmental delay/language delay group \\((n = 17)\\) had \"at risk\" scores on the M-CHAT-R/F or had physician or caregiver concern, were referred for evaluation,"
+        },
+        {
+            "type": "page_number",
+            "bbox": [
+                0.072,
+                0.936,
+                0.095,
+                0.945
+            ],
+            "angle": 0,
+            "content": "828"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.114,
+                0.935,
+                0.383,
+                0.947
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatrics August 2021 Volume 175, Number 8"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.787,
+                0.936,
+                0.882,
+                0.947
+            ],
+            "angle": 0,
+            "content": "jamapediatrics.com"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.321,
+                0.957,
+                0.674,
+                0.97
+            ],
+            "angle": 0,
+            "content": "© 2021 American Medical Association. All rights reserved."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.002,
+                0.977,
+                0.643,
+                0.99
+            ],
+            "angle": 0,
+            "content": "Downloaded from jamanetwork.com by Shanghai Jiao Tong University School of Medicine user on 07/17/2025"
+        }
+    ],
+    [
+        {
+            "type": "header",
+            "bbox": [
+                0.115,
+                0.038,
+                0.467,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Computational Methods to Measure Patterns of Gaze in Toddlers With ASD"
+        },
+        {
+            "type": "header",
+            "bbox": [
+                0.724,
+                0.038,
+                0.882,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Original Investigation Research"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.112,
+                0.078,
+                0.493,
+                0.31
+            ],
+            "angle": 0,
+            "content": "were administered the ADOS-2 and Mullen scales, and were determined not to meet criteria for ASD. All children scored at least 9 points below the mean on at least 1 Mullen subscale \\((\\mathrm{SD} = 10)\\). The typical development group \\((n = 936)\\) was defined as having a high likelihood of typical development based on a negative M-CHAT-R/F score and no concern raised by the physician or caregiver, or having been referred according to a positive M-CHAT-R/F score \\((n = 1)\\) or physician or caregiver concern \\((n = 7)\\) and determined by the psychologist according to the ADOS-2 and Mullen scales to be developing typically. Although it is possible that a child in the typical development group had ASD, developmental or language delay, or both, it was not feasible to administer the ADOS-2 and Mullen scales to all children. Because of the low number of participants with developmental delay or language delay, descriptive results for this group are provided in eFigures 2 to 4 in the Supplement."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.114,
+                0.326,
+                0.18,
+                0.338
+            ],
+            "angle": 0,
+            "content": "Digital App"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.112,
+                0.339,
+                0.492,
+                0.585
+            ],
+            "angle": 0,
+            "content": "The app was delivered in 4 clinics during a well-child visit (3 used an iPhone 8 Plus; 1 used a 9.7-in iPad). Caregivers held their child on their lap in well-lit rooms while brief, engaging movies were presented on the device set on a tripod approximately \\(60~\\mathrm{cm}\\) (iPad) and approximately \\(30~\\mathrm{cm}\\) (iPhone) away from the child. Caregivers were asked to refrain from instructing their child. The frontal camera recorded the child's behavior at resolutions of \\(1280 \\times 720\\) (iPad) and \\(1920 \\times 1080\\) (iPhone), 30 frames per second. App administration took less than 10 minutes, with each movie no longer than 60 seconds. Some children (1 typical development, 23 ASD, and 11 developmental delay/language delay group) who had failed the M-CHAT-R/F received a second administration of either the iPad or iPhone app (the version they did not receive in the clinic) during their diagnostic evaluation. Repeating analyses using independent samples did not change any results (described in the Supplement)."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.112,
+                0.585,
+                0.492,
+                0.802
+            ],
+            "angle": 0,
+            "content": "Four movies (2 per device) assessing social preference depicted a person on one side and a toy (played with by the person) on the opposite side of the screen. A distractor toy on a shelf was in the top corner on the side of the screen with the toy. Two movies showed a man blowing bubbles (\"blowing bubbles\") with a wand (iPad) or a bubble gun (iPhone). Two showed a woman spinning a top (iPad: \"spinning top\") or a pinwheel (iPhone: \"spinning pinwheel\"). Similar to a probe used in the ADOS-2, at one point, the person paused expectantly before enthusiastically blowing bubbles (eFigure 3 in the Supplement). The dependent variable was percentage of frames with the child looking to the right side of the screen (percentage right), reflecting the amount of time spent looking at the person or the toys, depending on which side of the screen displayed the person and toys (counterbalanced)."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.112,
+                0.802,
+                0.492,
+                0.918
+            ],
+            "angle": 0,
+            "content": "One movie, displayed on the iPad only, assessed attention to speech and depicted 2 women facing each other, 1 on each side of the screen, who talked about a trip to the park (\"fun at the park\"; illustrated in eFigure 4 in the Supplement). A clock was shown in the upper right-hand corner. Typically developing 6- to 11-month-old infants shift their gaze in accordance with the flow of conversation when shown similar stimuli.[16] We measured the time correlation between the con"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.078,
+                0.882,
+                0.121
+            ],
+            "angle": 0,
+            "content": "versation and the toddler's gaze. English or Spanish \\((n = 65, 6.5\\%)\\) versions of the app were shown, and actors were diverse in racial/ethnic background."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.121,
+                0.882,
+                0.222
+            ],
+            "angle": 0,
+            "content": "Two control movies without people or language were shown, one that displayed bubbles cascading down homogeneously across the screen with a gurgling sound (\"floating bubbles\" on both devices) and a second in which a puppy's face appeared and the puppy barked in a repeating pattern: twice on the right and once on the left side of the screen (\"puppy\" on the iPad)."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.223,
+                0.882,
+                0.281
+            ],
+            "angle": 0,
+            "content": "The percentages of assessments to which the child attended for the majority of the app administration were \\(95\\%\\) and \\(87\\%\\) for the iPhone and \\(95\\%\\) and \\(93\\%\\) for the iPad for the typical development and ASD groups, respectively."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.296,
+                0.605,
+                0.308
+            ],
+            "angle": 0,
+            "content": "Gaze Detection"
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.311,
+                0.733,
+                0.323
+            ],
+            "angle": 0,
+            "content": "Face Detection and Landmark Extraction"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.324,
+                0.882,
+                0.455
+            ],
+            "angle": 0,
+            "content": "Each video was run through a face detection and recognition algorithm.[17] Human supervision was used to verify the result of the face-tracking algorithm for fewer than 10 frames per video when the automatic tracking confidence algorithm was below a predefined threshold. Low tracking confidence is commonly associated with extreme head poses or rapid movement. For each frame in which the child's face was detected, IntraFace was used to extract 49 facial landmarks and the head pose angles (yaw, pitch, and roll).[18]"
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.47,
+                0.612,
+                0.483
+            ],
+            "angle": 0,
+            "content": "Attention Filtering"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.484,
+                0.882,
+                0.555
+            ],
+            "angle": 0,
+            "content": "A filter was applied to obtain valid gaze data that combined 3 rules: eyes were open, estimated by the eye aspect ratio as computed from the landmarks; estimated gaze was at or close to the area of the screen; and the face was relatively steady to filter frames in which quick head movements occurred."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.572,
+                0.589,
+                0.583
+            ],
+            "angle": 0,
+            "content": "Gaze Features"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.585,
+                0.882,
+                0.787
+            ],
+            "angle": 0,
+            "content": "To estimate gaze, we used iTracker.19 Raw gaze data were preprocessed with the attention filter, excluding frames in which the child was likely not attending to the movies. The Otsu20 method was used on the valid-gaze horizontal coordinate and split the gaze data into 2 clusters (left and right). A silhouette score was used to assess the significance of the clusters.21 This measure compares the distance of samples within the same cluster with the distance to the neighbors in a different cluster. When 2 clusters are compact and far from each other, the distance to the neighbors in the same cluster will be smaller than the distance to samples outside of the cluster, leading to maximal silhouette score. The clustering measure range is -1 to 1; the closer the measure is to 1, the stronger the separation and definition of the clusters."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.804,
+                0.646,
+                0.815
+            ],
+            "angle": 0,
+            "content": "Gaze-Speech Correlation"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.817,
+                0.882,
+                0.918
+            ],
+            "angle": 0,
+            "content": "For the \"fun at the park\" movie, we labeled frames during which the person on the left or right was talking, obtaining a square-wave binary signal. The horizontal gaze coordinate was compared with the binary signal to assess the correlation gaze and the alternating speech. We filtered those frames for valid gaze data and performed a binarization of the horizontal gaze coordinate (thresholding the signal), followed by a median fil"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.114,
+                0.935,
+                0.212,
+                0.947
+            ],
+            "angle": 0,
+            "content": "jamapediatrics.com"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.615,
+                0.935,
+                0.882,
+                0.947
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatrics August 2021 Volume 175, Number 8"
+        },
+        {
+            "type": "page_number",
+            "bbox": [
+                0.903,
+                0.936,
+                0.926,
+                0.945
+            ],
+            "angle": 0,
+            "content": "829"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.321,
+                0.957,
+                0.674,
+                0.97
+            ],
+            "angle": 0,
+            "content": "© 2021 American Medical Association. All rights reserved."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.001,
+                0.976,
+                0.643,
+                0.99
+            ],
+            "angle": 0,
+            "content": "Downloaded from jamanetwork.com by Shanghai Jiao Tong University School of Medicine user on 07/17/2025"
+        }
+    ],
+    [
+        {
+            "type": "header",
+            "bbox": [
+                0.115,
+                0.038,
+                0.274,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Research Original Investigation"
+        },
+        {
+            "type": "header",
+            "bbox": [
+                0.531,
+                0.038,
+                0.882,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Computational Methods to Measure Patterns of Gaze in Toddlers With ASD"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.077,
+                0.491,
+                0.135
+            ],
+            "angle": 0,
+            "content": "ter for smoothing. The binary horizontal gaze coordinate was compared with the speech signal, and, allowing a time shift of no more than 2 seconds, the correlation between the signals was calculated."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.114,
+                0.152,
+                0.234,
+                0.165
+            ],
+            "angle": 0,
+            "content": "Statistical Analysis"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.165,
+                0.491,
+                0.395
+            ],
+            "angle": 0,
+            "content": "Statistical differences between groups were computed with a 2-tailed Mann-Whitney \\(U\\) test and the Python package scipy.stats.mannwhitneyu with \"alternative\" parameter set to 2 sided. Effect size \\(r\\) was evaluated with the rank-biserial correlation.[22] A tree classifier was used to assess individual gaze features and their combination.[23] The scikit-learn implementation sklearnnn-tree.DecisionTreeClassifier was used with input parameters \"criterion = gini\" (impurity metric), \"max_depth = 2\" for a single stimulus and \"max_depth = 3\" when combining multiple stimuli, \"class_weight = balanced,\" and \"min_samples_leaf = 5.\" Statistics were computed in Python with SciPy low-level functions version 1.4.1, Statsmodels version 0.10.1, and scikit-learn version 0.23.2.[24-26] Significance was set at .05 and receiver operating characteristic curves and areas under the curve (AUCs) were obtained. CIs were computed with the Hanley and McNeil[27] method at \\(95\\%\\) level."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.115,
+                0.432,
+                0.172,
+                0.446
+            ],
+            "angle": 0,
+            "content": "Results"
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.114,
+                0.455,
+                0.274,
+                0.468
+            ],
+            "angle": 0,
+            "content": "Social Preference Movies"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.469,
+                0.491,
+                0.816
+            ],
+            "angle": 0,
+            "content": "Figure 1 displays the distributions of percentage right gaze for the social preference movies and corresponding silhouette analyses. Analyses of percentage right and silhouette scores revealed significant differences between the typical development and ASD groups (\"spinning pinwheel\" [iPhone]: \\(P < .001\\), \\(r = 0.51\\) for percentage right, and \\(P < .001\\), \\(r = 0.52\\) for silhouette score; \"blowing bubbles\" [iPhone]: \\(P = .007\\), \\(r = 0.35\\) for percentage right, and \\(P < .001\\), \\(r = 0.44\\) for silhouette score; \"spinning top\" [iPad]: \\(P = .001\\), \\(r = 0.33\\) for percentage right, and \\(P < .001\\), \\(r = 0.46\\) for silhouette score; \"blowing bubbles\" [iPad]: \\(P < .001\\), \\(r = 0.47\\) for percentage right, and \\(P < .001\\), \\(r = 0.51\\) for silhouette score). Because there was a 3.3-month mean age difference for the typical development vs ASD groups (\\(P < .001\\)), we repeated these analyses with age-matched groups. We identified subgroups of matched typical development participants with a mean age of 22.7 and 23.0 months for the iPhone and iPad, respectively. Gaze differences between toddlers with ASD vs typical development in percentage right and silhouette scores for each of the movies remained significant (\"spinning pinwheel\" [iPhone]: \\(P < .001\\), \\(r = 0.49\\), \\(P < .001\\), \\(r = 0.51\\); \"blowing bubbles\" [iPhone]: \\(P = .03\\), \\(r = 0.29\\), \\(P = .002\\), \\(r = 0.41\\); \"spinning top\" [iPad]: \\(P = .007\\), \\(r = 0.29\\), \\(P < .001\\), \\(r = 0.44\\); blowing bubbles\" [iPad]: \\(P < .001\\), \\(r = 0.46\\), \\(P < .001\\), \\(r = 0.53\\))."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.817,
+                0.492,
+                0.918
+            ],
+            "angle": 0,
+            "content": "During \"blowing bubbles\" (iPad), at one point, the person paused expectantly before enthusiastically blowing bubbles, paralleling probes used in the ADOS-2. Consistent with our hypothesis, when the percentage right values were aggregated during this specific interval, the effect size for group differences increased from medium to large (Figure 2) (effect size increased from 0.35 to 0.53 for iPhone and 0.47 to 0.59"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.077,
+                0.882,
+                0.121
+            ],
+            "angle": 0,
+            "content": "for iPad). Compared with children with typical development, those with ASD focused their gaze to a greater degree on the toys than on the person during this interval."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.137,
+                0.758,
+                0.149
+            ],
+            "angle": 0,
+            "content": "Coordination of Gaze With Conversation"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.15,
+                0.882,
+                0.352
+            ],
+            "angle": 0,
+            "content": "Analysis of the movie \"fun in the park\" revealed significant differences between the ASD and typical development groups for gaze-speech time correlations \\((P < .001, r = 0.42)\\) and left-right clusters silhouette scores \\((P < .001, r = 0.45)\\). Figure 3 illustrates the time correlation and silhouette score distributions for the ASD and typical development groups and shows an example of the temporal gaze pattern for a toddler with typical development and ASD. Whereas children with typical development showed a tight correlation between their gaze and the conversational flow, the toddlers with ASD showed a variable, less coordinated pattern. In repetition of this analysis of the time correlation and silhouette scores using age-matched samples, significant group differences remained \\((P < .001, r = 0.48\\) and \\(P < .001, r = 0.49\\), respectively)."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.369,
+                0.605,
+                0.381
+            ],
+            "angle": 0,
+            "content": "Control Movies"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.382,
+                0.882,
+                0.512
+            ],
+            "angle": 0,
+            "content": "Analysis of the control movie \"puppy\" revealed that both the typical development and ASD groups alternated their gaze to the right and left side of the screen when the puppy appeared. As shown in Figure 4, both groups showed a clear right, right, left gaze-shift pattern, and significant group differences were not found for this movie (\\(P = .07\\), \\(r = 0.20\\)). Similarly, a significant group difference in percentage right scores was not found for the second control movie, \"floating bubbles\" (\\(P = .90\\), \\(r = 0.17\\))."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.528,
+                0.777,
+                0.541
+            ],
+            "angle": 0,
+            "content": "Combining Multiple Types of Gaze Features"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.542,
+                0.882,
+                0.714
+            ],
+            "angle": 0,
+            "content": "We hypothesized that using multiple gaze features would improve group discrimination. We compared the performance of simple tree classifiers using the gaze features from individual movies and combined across movies. We fit the models to evaluate the accuracy of discrimination between ASD vs typical development. Figure 5 presents the receiver operating characteristic curves and AUC obtained for models trained for individual gaze features and their combination. The receiver operating characteristic shows the proportion of children with typical development incorrectly classified in the ASD group vs the proportion of children in the ASD group correctly classified as being diagnosed with ASD."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.715,
+                0.882,
+                0.918
+            ],
+            "angle": 0,
+            "content": "On the iPhone, the AUCs for \"spinning pinwheel\" and \"blowing bubbles\" were 0.84 (95% CI, 0.72-0.94) and 0.78 (95% CI, 0.66-0.90), respectively. When the model was fitted combining the features of both movies, the AUC improved to 0.88 (95% CI, 0.78-0.98). On the iPad, the AUCs associated with \"spinning top,\" \"blowing bubbles,\" and \"fun at the park\" were 0.77 (95% CI, 0.67-0.87), 0.81 (95% CI, 0.72-0.91), and 0.76 (95% CI, 0.65-0.86), respectively. When these features were combined, AUC performance increased to 0.90 (95% CI, 0.82-0.97). eTable 2 in the Supplement provides the AUCs obtained for the models based on combining gaze features separately by sex and racial/ethnic background. The AUC values remained relatively consistent for these subgroups; however, CIs were larger owing to smaller samples."
+        },
+        {
+            "type": "page_number",
+            "bbox": [
+                0.072,
+                0.936,
+                0.095,
+                0.945
+            ],
+            "angle": 0,
+            "content": "830"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.114,
+                0.935,
+                0.383,
+                0.947
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatrics August 2021 Volume 175, Number 8"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.787,
+                0.936,
+                0.882,
+                0.947
+            ],
+            "angle": 0,
+            "content": "jamapediatrics.com"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.321,
+                0.957,
+                0.674,
+                0.97
+            ],
+            "angle": 0,
+            "content": "© 2021 American Medical Association. All rights reserved."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.003,
+                0.977,
+                0.643,
+                0.99
+            ],
+            "angle": 0,
+            "content": "Downloaded from jamanetwork.com by Shanghai Jiao Tong University School of Medicine user on 07/17/2025"
+        }
+    ],
+    [
+        {
+            "type": "header",
+            "bbox": [
+                0.115,
+                0.038,
+                0.467,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Computational Methods to Measure Patterns of Gaze in Toddlers With ASD"
+        },
+        {
+            "type": "header",
+            "bbox": [
+                0.724,
+                0.038,
+                0.882,
+                0.051
+            ],
+            "angle": 0,
+            "content": "Original Investigation Research"
+        },
+        {
+            "type": "image_caption",
+            "bbox": [
+                0.115,
+                0.085,
+                0.347,
+                0.097
+            ],
+            "angle": 0,
+            "content": "Figure 1. Social vs Nonsocial Gaze Preference"
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.115,
+                0.101,
+                0.379,
+                0.288
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.384,
+                0.102,
+                0.622,
+                0.287
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.627,
+                0.102,
+                0.885,
+                0.297
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.114,
+                0.299,
+                0.379,
+                0.468
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.384,
+                0.308,
+                0.622,
+                0.468
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.627,
+                0.307,
+                0.885,
+                0.477
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.114,
+                0.479,
+                0.379,
+                0.653
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.384,
+                0.493,
+                0.622,
+                0.652
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.627,
+                0.492,
+                0.884,
+                0.663
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.114,
+                0.666,
+                0.379,
+                0.835
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.384,
+                0.676,
+                0.622,
+                0.835
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.627,
+                0.674,
+                0.884,
+                0.844
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image_footnote",
+            "bbox": [
+                0.113,
+                0.85,
+                0.871,
+                0.907
+            ],
+            "angle": 0,
+            "content": "Gaze data for 4 movies that depicted a person on one side of the screen playing with toys located on the opposite side of the screen. A, Distribution of percentage right scores (percentage of time spent looking at the right side of the screen) for each movie. B, Distribution of silhouette scores for each movie. C, Scatterplots displaying individual participant percentage right (horizontal axis) and silhouette scores (vertical axis). For \"spinning pinwheel\" (iPhone), the person is on the right side of the screen; for \"blowing bubbles\" (iPhone), the person is on the left side; for \"spinning top\" (iPad), the person is on the right side; and for \"blowing bubbles\" (iPad), the person is on the left side. ASD indicates autism spectrum disorder."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.114,
+                0.935,
+                0.211,
+                0.947
+            ],
+            "angle": 0,
+            "content": "jamapediatrics.com"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.615,
+                0.935,
+                0.881,
+                0.947
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatrics August 2021 Volume 175, Number 8"
+        },
+        {
+            "type": "page_number",
+            "bbox": [
+                0.906,
+                0.936,
+                0.926,
+                0.945
+            ],
+            "angle": 0,
+            "content": "831"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.321,
+                0.957,
+                0.675,
+                0.971
+            ],
+            "angle": 0,
+            "content": "© 2021 American Medical Association. All rights reserved."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.002,
+                0.976,
+                0.643,
+                0.99
+            ],
+            "angle": 0,
+            "content": "Downloaded from jamanetwork.com by Shanghai Jiao Tong University School of Medicine user on 07/17/2025"
+        }
+    ],
+    [
+        {
+            "type": "header",
+            "bbox": [
+                0.115,
+                0.038,
+                0.274,
+                0.051
+            ],
+            "angle": 0,
+            "content": "Research Original Investigation"
+        },
+        {
+            "type": "header",
+            "bbox": [
+                0.531,
+                0.038,
+                0.882,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Computational Methods to Measure Patterns of Gaze in Toddlers With ASD"
+        },
+        {
+            "type": "image_caption",
+            "bbox": [
+                0.115,
+                0.085,
+                0.396,
+                0.098
+            ],
+            "angle": 0,
+            "content": "Figure 2. Gaze Patterns During Salient Social Moments"
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.115,
+                0.102,
+                0.887,
+                0.469
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image_footnote",
+            "bbox": [
+                0.113,
+                0.48,
+                0.88,
+                0.517
+            ],
+            "angle": 0,
+            "content": "Children's gaze behavior was measured during a salient segment of the movie, during which the person paused expectantly before enthusiastically blowing bubbles. Displayed are the percentage right scores reflecting attentional preference for the toys (right side) vs the person (left side) for toddlers with typical development (blue) and autism spectrum disorder (orange) during this interval of the movie (A) and the entire movie (B)."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.114,
+                0.556,
+                0.197,
+                0.57
+            ],
+            "angle": 0,
+            "content": "Discussion"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.584,
+                0.492,
+                0.859
+            ],
+            "angle": 0,
+            "content": "We demonstrated for the first time, to our knowledge, that an app deployed on relatively low-cost, widely available devices can reliably measure gaze and detect early ASD symptoms related to social attention. Eye-gaze data can be collected from toddlers sitting on a caregiver's lap in pediatric clinics and quantified without any training, special setup, equipment, or calibration. Strategically designed, brief movies, shown on a tablet or smartphone, elicited distinctive patterns of gaze in toddlers with ASD, characterized by reduced preference for social stimuli, lower attentional focus on salient social segments of the movie, and previously unknown deficits in the ability to coordinate their gaze with the speech sounds of others. These results have broad scientific and clinical implications for human behavioral research. They open vast possibilities for gathering large data sets on eye-tracking biomarkers in real-world settings, amenable to big data analysis and machine learning, and applicable to a wide range of psychiatric and medical conditions characterized by atypical gaze patterns.[28,29]"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.86,
+                0.491,
+                0.918
+            ],
+            "angle": 0,
+            "content": "The temporal resolution of computer vision analysis allowed detection of previously unknown deficits in gazespeech coordination in toddlers with ASD. Whereas 6- to 11-month-old typically developing infants visually track the"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.541,
+                0.884,
+                0.773
+            ],
+            "angle": 0,
+            "content": "conversation between 2 people, toddlers with ASD showed less-coordinated gaze patterns.\\(^{16}\\) We also found differences in how toddlers with ASD pay attention to salient social moments in the movies, a feature that increased discrimination between toddlers with and without ASD (effect size increased from medium to large). Although any one feature showed overlap between toddlers with and without ASD, a computational approach was used to measure and integrate multiple features, obtaining significantly lower overlap between the groups. We plan to combine multiple gaze features with other behavioral features that can be measured with computer vision analysis using the same app, such as facial expressions,\\(^{30,31}\\) response to name,\\(^{32,33}\\) and sensorimotor behaviors.\\(^{34}\\) Because these behaviors develop during the first year of postnatal life, this approach could detect ASD risk behaviors during infancy."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.505,
+                0.789,
+                0.67,
+                0.802
+            ],
+            "angle": 0,
+            "content": "Strengths and Limitations"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.503,
+                0.802,
+                0.884,
+                0.918
+            ],
+            "angle": 0,
+            "content": "A strength of this study is diversity of the sample, recruited from community-based clinics without a known risk factor, such as an older sibling with ASD, or prior ASD diagnosis. This is comparable to how screening tools would be used in real-world settings such as primary care. This study was not designed to evaluate this novel approach as a screening method for ASD. Our goal is to assess multiple types of behavioral features, including gaze, and use all features"
+        },
+        {
+            "type": "page_number",
+            "bbox": [
+                0.072,
+                0.936,
+                0.094,
+                0.945
+            ],
+            "angle": 0,
+            "content": "832"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.114,
+                0.935,
+                0.383,
+                0.947
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatrics August 2021 Volume 175, Number 8"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.787,
+                0.935,
+                0.882,
+                0.947
+            ],
+            "angle": 0,
+            "content": "jamapediatrics.com"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.32,
+                0.957,
+                0.673,
+                0.97
+            ],
+            "angle": 0,
+            "content": "© 2021 American Medical Association. All rights reserved."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.002,
+                0.977,
+                0.643,
+                0.99
+            ],
+            "angle": 0,
+            "content": "Downloaded from jamanetwork.com by Shanghai Jiao Tong University School of Medicine user on 07/17/2025"
+        }
+    ],
+    [
+        {
+            "type": "header",
+            "bbox": [
+                0.115,
+                0.038,
+                0.467,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Computational Methods to Measure Patterns of Gaze in Toddlers With ASD"
+        },
+        {
+            "type": "header",
+            "bbox": [
+                0.724,
+                0.038,
+                0.882,
+                0.051
+            ],
+            "angle": 0,
+            "content": "Original Investigation Research"
+        },
+        {
+            "type": "image_caption",
+            "bbox": [
+                0.115,
+                0.085,
+                0.303,
+                0.098
+            ],
+            "angle": 0,
+            "content": "Figure 3. Gaze-Speech Coordination"
+        },
+        {
+            "type": "image_caption",
+            "bbox": [
+                0.117,
+                0.109,
+                0.252,
+                0.123
+            ],
+            "angle": 0,
+            "content": "A Speech-gaze correlations"
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.138,
+                0.127,
+                0.379,
+                0.294
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.387,
+                0.135,
+                0.621,
+                0.293
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.627,
+                0.131,
+                0.884,
+                0.293
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image_caption",
+            "bbox": [
+                0.117,
+                0.306,
+                0.294,
+                0.32
+            ],
+            "angle": 0,
+            "content": "B Speech signals during conversation"
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.128,
+                0.326,
+                0.884,
+                0.464
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image_caption",
+            "bbox": [
+                0.117,
+                0.476,
+                0.261,
+                0.491
+            ],
+            "angle": 0,
+            "content": "C Horizontal gaze component"
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.117,
+                0.496,
+                0.884,
+                0.635
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.117,
+                0.641,
+                0.884,
+                0.781
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image_footnote",
+            "bbox": [
+                0.113,
+                0.793,
+                0.882,
+                0.852
+            ],
+            "angle": 0,
+            "content": "Results from a movie designed to assess gaze patterns when the child watched a conversation between 2 people displayed on opposite sides of the screen (illustrated in eFigure 4 in the Supplement). A, Distributions of speech-gaze time correlations and silhouette scores and scatterplot jointly showing individual data for these 2 measures for children with autism spectrum disorder (ASD) (orange) and typical development (blue). B, Alternating speech signal between 2 women having a conversation shown in the movie. C, Alternative gaze patterns in relationship to the conversational speech sounds for a child with autism spectrum disorder and a child with typical development."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.875,
+                0.492,
+                0.918
+            ],
+            "angle": 0,
+            "content": "in combination to evaluate the sensitivity and specificity of the app as a screening tool. A limitation of this study is that the sample size was too small to reliably evaluate the"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.504,
+                0.875,
+                0.884,
+                0.918
+            ],
+            "angle": 0,
+            "content": "effects of sex, race/ethnicity, and caregiver education. Larger samples and longitudinal information about child diagnosis are needed to evaluate the positive predictive value"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.114,
+                0.935,
+                0.212,
+                0.947
+            ],
+            "angle": 0,
+            "content": "jamapediatrics.com"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.614,
+                0.935,
+                0.882,
+                0.947
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatrics August 2021 Volume 175, Number 8"
+        },
+        {
+            "type": "page_number",
+            "bbox": [
+                0.904,
+                0.935,
+                0.927,
+                0.946
+            ],
+            "angle": 0,
+            "content": "833"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.32,
+                0.957,
+                0.675,
+                0.971
+            ],
+            "angle": 0,
+            "content": "© 2021 American Medical Association. All rights reserved."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.002,
+                0.976,
+                0.643,
+                0.991
+            ],
+            "angle": 0,
+            "content": "Downloaded from jamanetwork.com by Shanghai Jiao Tong University School of Medicine user on 07/17/2025"
+        }
+    ],
+    [
+        {
+            "type": "header",
+            "bbox": [
+                0.116,
+                0.039,
+                0.274,
+                0.051
+            ],
+            "angle": 0,
+            "content": "Research Original Investigation"
+        },
+        {
+            "type": "header",
+            "bbox": [
+                0.531,
+                0.039,
+                0.882,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Computational Methods to Measure Patterns of Gaze in Toddlers With ASD"
+        },
+        {
+            "type": "image_caption",
+            "bbox": [
+                0.115,
+                0.085,
+                0.38,
+                0.099
+            ],
+            "angle": 0,
+            "content": "Figure 4. Gaze Shifts to Nonhuman Stimuli (Puppy)"
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.118,
+                0.103,
+                0.885,
+                0.291
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.299,
+                0.876,
+                0.336
+            ],
+            "angle": 0,
+            "content": "In this control movie, a puppy's face appeared twice on the right and once on the left. Shown are the mean (SD) gaze horizontal coordinates (lines represent means and shaded areas represent SDs) as the puppy's face appeared in the right-right-left pattern on an iPad for children with typical development (blue) and autism spectrum disorder (ASD) (orange). On the vertical axis, 1 is right and 0 is left."
+        },
+        {
+            "type": "image_caption",
+            "bbox": [
+                0.115,
+                0.355,
+                0.296,
+                0.369
+            ],
+            "angle": 0,
+            "content": "Figure 5. Combining Gaze Features"
+        },
+        {
+            "type": "image_footnote",
+            "bbox": [
+                0.117,
+                0.38,
+                0.204,
+                0.394
+            ],
+            "angle": 0,
+            "content": "A iPhone movies"
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.117,
+                0.395,
+                0.296,
+                0.444
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.117,
+                0.444,
+                0.314,
+                0.598
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.334,
+                0.443,
+                0.508,
+                0.59
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.522,
+                0.443,
+                0.696,
+                0.59
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image_footnote",
+            "bbox": [
+                0.117,
+                0.611,
+                0.194,
+                0.625
+            ],
+            "angle": 0,
+            "content": "B iPad movies"
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.117,
+                0.626,
+                0.291,
+                0.684
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.117,
+                0.685,
+                0.314,
+                0.839
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.335,
+                0.684,
+                0.508,
+                0.831
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.522,
+                0.684,
+                0.697,
+                0.831
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "image",
+            "bbox": [
+                0.708,
+                0.684,
+                0.882,
+                0.831
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.851,
+                0.875,
+                0.91
+            ],
+            "angle": 0,
+            "content": "Receiver operating characteristic (ROC) curves and areas under the curve (AUCs) obtained for models trained on percentage right scores and gaze-speech correlations for each movie and their combination for the data collected on the iPhone (A) and iPad (B). Receiver operating characteristics appear nonsmooth due to the small number of levels in the model. On the right, the per-feature classification boundaries associated with the gaze features extracted from each movie are shown, as automatically computed by the classification strategy. A shallow tree was used to learn to classify from the data; the portions of the feature space associated with a higher risk of autism spectrum disorder (ASD) are shown colored."
+        },
+        {
+            "type": "page_number",
+            "bbox": [
+                0.072,
+                0.936,
+                0.095,
+                0.946
+            ],
+            "angle": 0,
+            "content": "834"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.115,
+                0.935,
+                0.383,
+                0.947
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatrics August 2021 Volume 175, Number 8"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.787,
+                0.935,
+                0.882,
+                0.947
+            ],
+            "angle": 0,
+            "content": "jamapediatrics.com"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.321,
+                0.958,
+                0.675,
+                0.97
+            ],
+            "angle": 0,
+            "content": "© 2021 American Medical Association. All rights reserved."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.002,
+                0.977,
+                0.643,
+                0.99
+            ],
+            "angle": 0,
+            "content": "Downloaded from jamanetwork.com by Shanghai Jiao Tong University School of Medicine user on 07/17/2025"
+        }
+    ],
+    [
+        {
+            "type": "header",
+            "bbox": [
+                0.115,
+                0.038,
+                0.467,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Computational Methods to Measure Patterns of Gaze in Toddlers With ASD"
+        },
+        {
+            "type": "header",
+            "bbox": [
+                0.724,
+                0.039,
+                0.882,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Original Investigation Research"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.113,
+                0.077,
+                0.491,
+                0.121
+            ],
+            "angle": 0,
+            "content": "of this novel approach for detecting ASD risk. We hope a digital screening tool can be complementary to other assessment approaches and ultimately increase the ac"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.505,
+                0.077,
+                0.883,
+                0.121
+            ],
+            "angle": 0,
+            "content": "curacy, exportability, accessibility, and scalability of ASD screening, allowing improved risk detection and earlier intervention.[35]"
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.115,
+                0.144,
+                0.236,
+                0.154
+            ],
+            "angle": 0,
+            "content": "ARTICLE INFORMATION"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.115,
+                0.158,
+                0.314,
+                0.17
+            ],
+            "angle": 0,
+            "content": "Accepted for Publication: March 3, 2021."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.115,
+                0.173,
+                0.275,
+                0.184
+            ],
+            "angle": 0,
+            "content": "Published Online: April 26, 2021."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.115,
+                0.185,
+                0.299,
+                0.196
+            ],
+            "angle": 0,
+            "content": "doi:10.1001/jamapediatrics.2021.0530"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.114,
+                0.2,
+                0.357,
+                0.518
+            ],
+            "angle": 0,
+            "content": "Author Affiliations: Department of Electrical and Computer Engineering, Duke University, Durham, North Carolina (Chang, Di Martino, Perochon, Krishnappa Babu, Sapiro); Department of Psychiatry and Behavioral Sciences, Duke University, Durham, North Carolina (Aiello, Carpenter, Compton, Davis, Flowers, Franz, Howard, Spanos, Sullivan, Kollins, Dawson); Duke Center for Autism and Brain Development, Duke University, Durham, North Carolina (Aiello, Carpenter, Compton, Davis, Flowers, Franz, Harris, Howard, Spanos, Sullivan, Kollins, Dawson, Sapiro); Department of Pediatrics, Duke University, Durham, North Carolina (Baker, Eichner, Perrin, Walter); Office of Information Technology, Duke University, Durham, North Carolina (Espinosa); Duke Global Health Institute, Duke University, Durham, North Carolina (Franz, Dawson); Department of Psychology & Neuroscience, Duke University, Durham, North Carolina (Harris); Ecole Normale Supérieure Paris-Saclay, Cachan, France (Perochon); Duke Center for Childhood Obesity Research, Duke University, Durham, North Carolina (Perrin); Duke Institute for Brain Sciences, Duke University, Durham, North Carolina (Dawson); Department of Biomedical Engineering, Mathematics, and Computer Sciences, Duke University, Durham, North Carolina (Sapiro)."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.114,
+                0.521,
+                0.357,
+                0.589
+            ],
+            "angle": 0,
+            "content": "Author Contributions: Dr Compton had full access to all of the data in the study and takes responsibility for the integrity of the data and the accuracy of the data analysis. Drs Dawson and Sapiro are co-senior authors and contributed equally to this work."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.114,
+                0.59,
+                0.353,
+                0.612
+            ],
+            "angle": 0,
+            "content": "Concept and design: Chang, Di Martino, Carpenter, Dawson, Sapiro."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.114,
+                0.613,
+                0.351,
+                0.691
+            ],
+            "angle": 0,
+            "content": "Acquisition, analysis, or interpretation of data:  \nChang, Di Martino, Aiello, Baker, Carpenter, Compton, Davis, Espinosa, Flowers, Franz, Harris, Howard, Perochon, Perrin, Krishnappa Babu, Spanos, Sullivan, Walter, Kollins, Dawson, Sapiro. Drafting of the manuscript: Chang, Di Martino, Dawson, Sapiro."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.114,
+                0.692,
+                0.352,
+                0.76
+            ],
+            "angle": 0,
+            "content": "Critical revision of the manuscript for important intellectual content: Chang, Di Martino, Aiello, Baker, Carpenter, Compton, Davis, Eichner, Espinosa, Flowers, Franz, Harris, Howard, Perochon, Perrin, Spanos, Sullivan, Walter, Kollins, Dawson, Sapiro."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.114,
+                0.76,
+                0.345,
+                0.782
+            ],
+            "angle": 0,
+            "content": "Statistical analysis: Chang, Di Martino, Compton, Perochon, Krishnappa Babu, Sullivan, Sapiro."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.114,
+                0.783,
+                0.331,
+                0.838
+            ],
+            "angle": 0,
+            "content": "Obtained funding: Kollins, Dawson, Sapiro. Administrative, technical, or material support: Chang, Di Martino, Aiello, Carpenter, Davis, Espinosa, Flowers, Harris, Howard, Perochon, Spanos, Walter, Dawson, Sapiro."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.114,
+                0.839,
+                0.331,
+                0.861
+            ],
+            "angle": 0,
+            "content": "Supervision: Baker, Carpenter, Davis, Dawson, Sapiro."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.114,
+                0.862,
+                0.326,
+                0.895
+            ],
+            "angle": 0,
+            "content": "Clinical correlations and context: Perrin. Supervision of students and junior coauthors: Dawson, Sapiro."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.114,
+                0.896,
+                0.321,
+                0.907
+            ],
+            "angle": 0,
+            "content": "Implementation of the study in primary care"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.375,
+                0.144,
+                0.566,
+                0.155
+            ],
+            "angle": 0,
+            "content": "pediatrics clinics: Eichner, Perrin, Walter."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.374,
+                0.158,
+                0.621,
+                0.566
+            ],
+            "angle": 0,
+            "content": "Conflict of Interest Disclosures: Dr Chang reports receiving royalties from Apple Inc from licensing during the conduct of the study. Dr Aiello reports receiving grants from the National Institutes of Health (NIH) during the conduct of the study and personal fees from Private Diagnostic Clinic outside the submitted work. Dr Baker reports having a patent pending (15141391) and royalties from Apple Inc. Dr Carpenter reports receiving grants from NIH during the conduct of the study, having a patent pending (15141391) for developing technology that has been licensed to Apple, Inc, and receiving financial compensation for it, along with Duke University. Dr Compton reports receiving grants from the National Institute of Mental Health (NIMH) and personal fees from Mursion, Inc during the conduct of the study. Dr Davis reports receiving grants from NIH during the conduct of the study and research support from Akili Interactive outside the submitted work. Mr Espinosa reports receiving grants from the National Institute of Child Health and Human Development (NICHD), grants from NIMH, and fees from Apple Storage during the conduct of the study, and had a patent pending (15141391) and royalties for technology licensed to Apple Inc. Mr Harris reports receiving grants from NIH during the conduct of the study, having a patent pending (15141391) for developing technology that has been licensed to Apple, Inc, and receiving financial compensation for it, along with Duke University. Dr Howard reports receiving personal fees from Roche outside the submitted work. Dr Kollins reports receiving grants from NIH during the conduct of the study. Dr Dawson reports receiving grants from NICHD (P50HD093074), NIMH (RO1MH121329 and RO1MH120093),"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.375,
+                0.567,
+                0.622,
+                0.907
+            ],
+            "angle": 0,
+            "content": "The Marcus Foundation, and Simons Foundation; receiving support from Apple Inc for data storage; receiving software during the conduct of the study; receiving personal fees from Apple; being a consultant for Apple; developing technology and data related to the app that has been licensed to Apple Inc, from which both she and Duke University have benefited financially; receiving other from Janssen Scientific Advisory Board; receiving other from Akili Scientific Advisory Board; receiving personal fees from LabCorp Scientific Advisory Board, Roche Scientific Advisory Board, Tris Pharma Scientific Advisory Board; receiving consultant fees from the Gerson Lehrman Group, Guidepoint, Axial Ventures, and Teva Pharmaceutical; receiving other from DASIO CEO; and receiving book royalties from Guilford Press, Oxford University Press, and Springer Nature Press outside the submitted work. Dr Dawson also reports patents pending (1802952, 15141391, 1802942, and 16493754). Dr Sapiro reports receiving consultant fees from Apple at submission of the manuscript, speaker fees from Johnson & Johnson, nonfinancial support from DASIO (nonactive cofounder) during the conduct of the study, consultant fees from Restore3D on activities unrelated to this work, nonfinancial support from SIS as a board member (unrelated work), and consultant fees from Volvo on activities outside the submitted work. Dr Sapiro has a patent pending (15141391) for technology on behavioral"
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.635,
+                0.143,
+                0.882,
+                0.258
+            ],
+            "angle": 0,
+            "content": "coding and corresponding data licensed to Apple (Duke University has licensed technology to Apple), a patent for technology for video deblurring licensed to Adobe (licensed by Duke University) not related to this work, and a patent for technology for face recognition licensed to Coral (licensed by Duke University) not related to this work. After the manuscript was submitted, Dr Sapiro started a sabbatical and is currently working at Apple part-time. No other disclosures were reported."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.635,
+                0.261,
+                0.878,
+                0.397
+            ],
+            "angle": 0,
+            "content": "Funding/Support: This work was primarily supported by NIH Autism Centers of Excellence Award NICHD P50HD093074 (Dr Dawson, director; Drs Dawson and Kollins, Co-Pls), NIMH RO1MH121329 (Drs Dawson and Sapiro, Co-Pls), and NIMH RO1MH120093 (Drs Sapiro and Dawson, Co-Pls). Additional support was provided by The Marcus Foundation; the Simons Foundation; NSF-1712867; ONR N00014-18-1-2143 and N00014-20-1-233; NGA HMO4761912010; Apple, Inc; Microsoft, Inc; Amazon Web Services; and Google, Inc."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.635,
+                0.4,
+                0.878,
+                0.469
+            ],
+            "angle": 0,
+            "content": "Role of the Funder/Sponsor: The funders had no role in the design and conduct of the study; collection, management, analysis, and interpretation of the data; preparation, review, or approval of the manuscript; and decision to submit the manuscript for publication."
+        },
+        {
+            "type": "text",
+            "bbox": [
+                0.635,
+                0.472,
+                0.88,
+                0.632
+            ],
+            "angle": 0,
+            "content": "Additional Contributions: We thank the many caregivers and children for their participation in the study, without whom this research would not have been possible. We gratefully acknowledge the assistance with recruitment by the physicians and nurses in Duke Children's Primary Care, including Martha Gagliano, MD, who was not compensated from the sponsor, and the contributions of other Duke University employees, including the administrative, regulatory, and data management staff, and several clinical research specialists who were supported by NICHD grant P50HD093074. We thank the individual shown in Figure 2 for granting permission to publish this information."
+        },
+        {
+            "type": "title",
+            "bbox": [
+                0.637,
+                0.642,
+                0.706,
+                0.652
+            ],
+            "angle": 0,
+            "content": "REFERENCES"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.635,
+                0.657,
+                0.879,
+                0.702
+            ],
+            "angle": 0,
+            "content": "1. Kennedy DP, Adolphs R. The social brain in psychiatric and neurological disorders. Trends Cogn Sci. 2012;16(11):559-572. doi:10.1016/j.tics.2012.09.006"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.635,
+                0.707,
+                0.87,
+                0.752
+            ],
+            "angle": 0,
+            "content": "2. Haxby JV, Hoffman EA, Gobbini MI. The distributed human neural system for face perception. Trends Cogn Sci. 2000;4(6):223-233. doi:10.1016/S1364-6613(00)01482-0"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.635,
+                0.756,
+                0.863,
+                0.79
+            ],
+            "angle": 0,
+            "content": "3. Adolphs R. Cognitive neuroscience of human social behaviour. Nat Rev Neurosci. 2003;4(3): 165-178. doi:10.1038/nrn1056"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.635,
+                0.794,
+                0.881,
+                0.839
+            ],
+            "angle": 0,
+            "content": "4. Reynolds GD, Roth KC. The development of attentional biases for faces in infancy: a developmental systems perspective. Front Psychol. 2018;9:222. doi:10.3389/fpsyg.2018.00222"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.635,
+                0.843,
+                0.867,
+                0.9
+            ],
+            "angle": 0,
+            "content": "5. Chawarska K, Macari S, Shic F. Decreased spontaneous attention to social scenes in 6-month-old infants later diagnosed with autism spectrum disorders. Biol Psychiatry. 2013;74(3): 195-203. doi:10.1016/j.biopsych.2012.11.022"
+        },
+        {
+            "type": "list",
+            "bbox": [
+                0.635,
+                0.657,
+                0.881,
+                0.9
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.114,
+                0.935,
+                0.211,
+                0.947
+            ],
+            "angle": 0,
+            "content": "jamapediatrics.com"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.615,
+                0.935,
+                0.882,
+                0.947
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatrics August 2021 Volume 175, Number 8"
+        },
+        {
+            "type": "page_number",
+            "bbox": [
+                0.904,
+                0.935,
+                0.926,
+                0.945
+            ],
+            "angle": 0,
+            "content": "835"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.321,
+                0.957,
+                0.675,
+                0.971
+            ],
+            "angle": 0,
+            "content": "© 2021 American Medical Association. All rights reserved."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.002,
+                0.976,
+                0.643,
+                0.991
+            ],
+            "angle": 0,
+            "content": "Downloaded from jamanetwork.com by Shanghai Jiao Tong University School of Medicine user on 07/17/2025"
+        }
+    ],
+    [
+        {
+            "type": "header",
+            "bbox": [
+                0.115,
+                0.039,
+                0.274,
+                0.051
+            ],
+            "angle": 0,
+            "content": "Research Original Investigation"
+        },
+        {
+            "type": "header",
+            "bbox": [
+                0.531,
+                0.039,
+                0.882,
+                0.05
+            ],
+            "angle": 0,
+            "content": "Computational Methods to Measure Patterns of Gaze in Toddlers With ASD"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.115,
+                0.079,
+                0.351,
+                0.136
+            ],
+            "angle": 0,
+            "content": "6. Webb SJ, Jones EJ, Kelly J, Dawson G. The motivation for very early intervention for infants at high risk for autism spectrum disorders. Int J Speech Lang Pathol. 2014;16(1):36-42. doi:10.3109/17549507.2013.861018"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.115,
+                0.14,
+                0.358,
+                0.197
+            ],
+            "angle": 0,
+            "content": "7. Dawson G, Jones EJ, Merkle K, et al. Early behavioral intervention is associated with normalized brain activity in young children with autism. J Am Acad Child Adolesc Psychiatry. 2012;51 (11):1150-1159. doi:10.1016/j.jaac.2012.08.018"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.115,
+                0.2,
+                0.36,
+                0.257
+            ],
+            "angle": 0,
+            "content": "8. Jones EJH, Dawson G, Kelly J, Estes A, Webb SJ. Parent-delivered early intervention in infants at risk for ASD: effects on electrophysiological and habituation measures of social attention. Autism Res. 2017;10(5):961-972. doi:10.1002/aur.1754"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.115,
+                0.261,
+                0.355,
+                0.306
+            ],
+            "angle": 0,
+            "content": "9. Chita-Tegmark M. Social attention in ASD: a review and meta-analysis of eye-tracking studies. Res Dev Disabil. 2016;48:79-93. doi:10.1016/j.ridd.2015.10.011"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.115,
+                0.31,
+                0.356,
+                0.356
+            ],
+            "angle": 0,
+            "content": "10. Klin A, Jones W, Schultz R, Volkmar F, Cohen D. Defining and quantifying the social phenotype in autism. Am J Psychiatry. 2002;159(6):895-908. doi:10.1176/appi.ajp.159.6.895"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.115,
+                0.359,
+                0.36,
+                0.404
+            ],
+            "angle": 0,
+            "content": "11. Chlebowski C, Robins DL, Barton ML, Fein D. Large-scale use of the modified checklist for autism in low-risk toddlers. Pediatrics. 2013;131(4):e1121-e1127. doi:10.1542/peds.2012-1525"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.115,
+                0.408,
+                0.361,
+                0.475
+            ],
+            "angle": 0,
+            "content": "12. Khowaja MK, Hazzard AP, Robins DL. Sociodemographic barriers to early detection of autism: screening and evaluation using the M-CHAT, M-CHAT-R, and Follow-Up. J Autism Dev Disord. 2015;45(6):1797-1808. doi:10.1007/s10803-014-2339-8"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.115,
+                0.479,
+                0.354,
+                0.525
+            ],
+            "angle": 0,
+            "content": "13. Constantino JN, Abbacchi AM, Saulnier C, et al. Timing of the diagnosis of autism in African American children. Pediatrics. 2020;146(3): e20193629. doi:10.1542/peds.2019-3629"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.115,
+                0.528,
+                0.354,
+                0.585
+            ],
+            "angle": 0,
+            "content": "14. Gotham K, Risi S, Pickles A, Lord C. The Autism Diagnostic Observation Schedule: revised algorithms for improved diagnostic validity. J Autism Dev Disord. 2007;37(4):613-627. doi:10.1007/s10803-006-0280-1"
+        },
+        {
+            "type": "list",
+            "bbox": [
+                0.115,
+                0.079,
+                0.361,
+                0.585
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.079,
+                0.586,
+                0.102
+            ],
+            "angle": 0,
+            "content": "15. Mullen E. Mullen Scales of Early Learning. Western Psychological Services Inc; 1995."
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.106,
+                0.613,
+                0.162
+            ],
+            "angle": 0,
+            "content": "16. Augusti EM, Melinder A, Gredeback G. Look who's talking: pre-verbal infants' perception of face-to-face and back-to-back social interactions. Front Psychol. 2010;1:161. doi:10.3389/fpsyg.2010.00161"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.166,
+                0.601,
+                0.188
+            ],
+            "angle": 0,
+            "content": "17. King DE. Dlib-ml: a machine learning toolkit. J Mach Learn Res. 2009;10:1755-1758."
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.192,
+                0.605,
+                0.248
+            ],
+            "angle": 0,
+            "content": "18. D'e la Torre F, Chu W, Xiong X, Vincente F, Ding X, Cohn J. IntraFace. Presented at: IEEE International Conference on Automatic Face and Gesture Recognition; May 4-8, 2015; Ljuljana, Slovenia."
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.253,
+                0.61,
+                0.298
+            ],
+            "angle": 0,
+            "content": "19. Krafka K, Khosla A, Kellnhofer P, et al. Eye-tracking for everyone. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2016:2176-2184."
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.302,
+                0.614,
+                0.336
+            ],
+            "angle": 0,
+            "content": "20. Otsu N. A threshold selection method from gray-level histograms. IEEE Trans Syst Man Cybern. 1979;9(1):62-66. doi:10.1109/TSMC.1979.4310076"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.34,
+                0.618,
+                0.385
+            ],
+            "angle": 0,
+            "content": "21. Rousseuw PJ. Silhouettes: a graphical aid to the interpretation and validation of cluster analysis. J Comput Appl Math. 1987;20:53-65. doi:10.1016/0377-0427(87)90125-7"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.389,
+                0.609,
+                0.423
+            ],
+            "angle": 0,
+            "content": "22. Cureton EE. Rank-biserial correlation. Psychometrika. 1956;21(3):287-290. doi:10.1007/BF02289138"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.427,
+                0.621,
+                0.449
+            ],
+            "angle": 0,
+            "content": "23. Breiman L, Friedman J, Olshen R, Stone C. Classification and Regression Trees. Wadsworth: 1984."
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.453,
+                0.601,
+                0.488
+            ],
+            "angle": 0,
+            "content": "24. Jones E, Oliphant T, Peterson P, et al. SciPy: Open Source Scientific Tools for Python. 2001. http://www.scipy.org"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.491,
+                0.605,
+                0.536
+            ],
+            "angle": 0,
+            "content": "25. Seabold S, Perktold J. Econometric and statistical model with python. Presented at: Proceedings of the 9th Python in Science Conference; June 28-July 3, 2010; Austin, Texas."
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.54,
+                0.621,
+                0.563
+            ],
+            "angle": 0,
+            "content": "26. Vallat R. Pingouin: statistics in Python. J Open Source Softw. 2018;3(31):1026. doi:10.21105/joss.01026"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.377,
+                0.567,
+                0.613,
+                0.589
+            ],
+            "angle": 0,
+            "content": "27. Hanley JA, McNeil BJ. The meaning and use of the area under a receiver operating characteristic"
+        },
+        {
+            "type": "list",
+            "bbox": [
+                0.377,
+                0.079,
+                0.621,
+                0.589
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.638,
+                0.079,
+                0.874,
+                0.102
+            ],
+            "angle": 0,
+            "content": "(ROC) curve. Radiology. 1982;143(1):29-36. doi:10. 1148/radiology.143.1.7063747"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.638,
+                0.106,
+                0.877,
+                0.162
+            ],
+            "angle": 0,
+            "content": "28. Levy DL, Sereno AB, Gooding DC, O'Driscoll GA. Eye tracking dysfunction in schizophrenia: characterization and pathophysiology. Curr Top Behav Neurosci. 2010;4: 311-347. doi:10.1007/7854_2010_60"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.638,
+                0.166,
+                0.878,
+                0.223
+            ],
+            "angle": 0,
+            "content": "29. Tao L, Wang Q, Liu D, Wang J, Zhu Z, Feng L. Eye tracking metrics to screen and assess cognitive impairment in patients with neurological disorders. Neurol Sci. 2020;41(7):1697-1704. doi:10.1007/s10072-020-04310-y"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.638,
+                0.226,
+                0.878,
+                0.272
+            ],
+            "angle": 0,
+            "content": "30. Carpenter KLH, Hahemi J, Campbell K, et al. Digital behavioral phenotyping detects atypical pattern of facial expression in toddlers with autism. Autism Res. 2021;14(3):488-499."
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.638,
+                0.276,
+                0.879,
+                0.331
+            ],
+            "angle": 0,
+            "content": "31. Egger HL, Dawson G, Hashemi J, et al. Automatic emotion and attention analysis of young children at home: a ResearchKit autism feasibility study. NPJ Digit Med. 2018;1:20. doi:10.1038/s41746-018-0024-6"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.638,
+                0.336,
+                0.874,
+                0.38
+            ],
+            "angle": 0,
+            "content": "32. Campbell K, Carpenter KL, Hashemi J, et al. Computer vision analysis captures atypical attention in toddlers with autism. Autism. 2019;23 (3):619-628. doi:10.1177/1362361318766247"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.638,
+                0.385,
+                0.869,
+                0.442
+            ],
+            "angle": 0,
+            "content": "33. Perochon S, Di Martino M, Aiello R, et al. A scalable computational approach to assessing response to name in toddlers with autism. J Child Psychol Psychiatry. Published online February 28, 2021. doi:10.1111/jcppp.13381"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.638,
+                0.446,
+                0.864,
+                0.501
+            ],
+            "angle": 0,
+            "content": "34. Dawson G, Campbell K, Hashemi J, et al. Atypical postural control can be detected via computer vision analysis in toddlers with autism spectrum disorder. Sci Rep. 2018;8(1):17008. doi:10.1038/s41598-018-35215-8"
+        },
+        {
+            "type": "ref_text",
+            "bbox": [
+                0.638,
+                0.506,
+                0.862,
+                0.563
+            ],
+            "angle": 0,
+            "content": "35. Dawson G, Sapiro G. Potential for digital behavioral measurement tools to transform the detection and diagnosis of autism spectrum disorder. JAMA Pediatr. 2019;173(4):305-306. doi:10.1001/jamapediatrics.2018.5269"
+        },
+        {
+            "type": "list",
+            "bbox": [
+                0.638,
+                0.079,
+                0.879,
+                0.563
+            ],
+            "angle": 0,
+            "content": null
+        },
+        {
+            "type": "page_number",
+            "bbox": [
+                0.073,
+                0.936,
+                0.095,
+                0.945
+            ],
+            "angle": 0,
+            "content": "836"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.116,
+                0.935,
+                0.382,
+                0.947
+            ],
+            "angle": 0,
+            "content": "JAMA Pediatrics August 2021 Volume 175, Number 8"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.787,
+                0.936,
+                0.882,
+                0.947
+            ],
+            "angle": 0,
+            "content": "jamapediatrics.com"
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.321,
+                0.958,
+                0.673,
+                0.97
+            ],
+            "angle": 0,
+            "content": "© 2021 American Medical Association. All rights reserved."
+        },
+        {
+            "type": "footer",
+            "bbox": [
+                0.002,
+                0.977,
+                0.643,
+                0.99
+            ],
+            "angle": 0,
+            "content": "Downloaded from jamanetwork.com by Shanghai Jiao Tong University School of Medicine user on 07/17/2025"
+        }
+    ]
+]

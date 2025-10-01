@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Build / Dist
+build/
+dist/
+*.egg-info/
+
+# Tools
+.ruff_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# App assets & recordings
+assets/samples/
+assets/recordings/
+
+# Papers large artifacts
+papers/**/*.pdf
+papers/**/*.jpg
+papers/**/*.png
+
