@@ -2,6 +2,7 @@
 基于 MediaPipe FaceMesh 的人脸/眼部关键点检测与跟踪。
 
 默认在降尺度帧上推理以提升吞吐与帧率；输出坐标映射回原始帧尺寸。
+并尽量降低底层 TFLite/MediaPipe 的冗余日志噪声。
 """
 
 from __future__ import annotations
@@ -9,8 +10,20 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Optional, Sequence, Tuple
 
+import os
 import cv2
 import numpy as np
+
+# 常用关键点索引（基于 MediaPipe FaceMesh 拓展，含虹膜）
+# 降低 TensorFlow Lite / absl 的日志等级
+os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")  # 0=all,1=INFO,2=WARNING,3=ERROR
+os.environ.setdefault("GLOG_minloglevel", "2")
+try:
+    from absl import logging as absl_logging  # type: ignore
+    absl_logging.set_verbosity(absl_logging.ERROR)
+    absl_logging.use_absl_handler()
+except Exception:
+    pass
 
 try:
     import mediapipe as mp
@@ -137,4 +150,3 @@ class FaceTracker:
         if tr.face_box is not None:
             x, y, w, h = tr.face_box
             cv2.rectangle(frame_bgr, (x, y), (x + w, y + h), color_box, thickness=1, lineType=cv2.LINE_AA)
-

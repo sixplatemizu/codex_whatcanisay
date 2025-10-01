@@ -43,6 +43,7 @@ class AppState:
     requested_resolution: Tuple[int, int] = (1280, 720)
     device_idx: int = 0
     reported_resolution: bool = False
+    worker: Optional[threading.Thread] = None
     _stop_event: Optional[threading.Event] = None
 
 
@@ -145,7 +146,9 @@ def main(page: ft.Page) -> None:
         start_btn.disabled = True
         stop_btn.disabled = False
         page.update()
-        page.run_thread(lambda: capture_loop())
+        # 使用自管理线程，便于在窗口关闭时 join，避免事件循环关闭报错
+        state.worker = threading.Thread(target=capture_loop, daemon=True)
+        state.worker.start()
 
     def on_stop_click(e: ft.ControlEvent) -> None:
         nonlocal state
@@ -158,6 +161,13 @@ def main(page: ft.Page) -> None:
         status_text.value = "已停止"
         start_btn.disabled = False
         stop_btn.disabled = True
+        # 等待采集线程退出
+        if state.worker is not None:
+            try:
+                state.worker.join(timeout=1.0)
+            except Exception:
+                pass
+            state.worker = None
         page.update()
 
     def capture_loop() -> None:
@@ -247,6 +257,13 @@ def main(page: ft.Page) -> None:
         if state._stop_event:
             state._stop_event.set()
         cam.close()
+        # 关闭窗口前等待线程退出，降低关闭时的 asyncio 报错概率
+        if state.worker is not None:
+            try:
+                state.worker.join(timeout=1.0)
+            except Exception:
+                pass
+            state.worker = None
 
     page.on_close = on_close
 
