@@ -31,6 +31,7 @@ if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
 from services.camera import CameraService
+from core.tracking import FaceTracker
 
 
 @dataclass
@@ -99,6 +100,7 @@ def main(page: ft.Page) -> None:
     fps_text = ft.Text("FPS: 0.0", size=14, color="#616161")  # 实测帧率（UI 刷新统计）
     status_text = ft.Text("就绪", size=14, color="#616161")
     mirror_switch = ft.Switch(label="镜像预览", value=True)
+    track_switch = ft.Switch(label="人脸/眼部叠加", value=True)
 
     img = ft.Image(
         src_base64=None,
@@ -163,6 +165,9 @@ def main(page: ft.Page) -> None:
         frame_count = 0
         t0 = time.perf_counter()
         last_ui = 0.0
+        # 跟踪器（惰性创建）
+        tracker: Optional[FaceTracker] = None
+
         try:
             while state.capturing and state._stop_event and not state._stop_event.is_set():
                 ok, frame = cam.read()
@@ -187,6 +192,13 @@ def main(page: ft.Page) -> None:
                 # 可选镜像（自拍预览更符合直觉）
                 if mirror_switch.value:
                     frame = cv2.flip(frame, 1)
+                # 人脸/眼部叠加（在降尺度帧上推理，映射回原帧坐标）
+                if track_switch.value:
+                    if tracker is None:
+                        tracker = FaceTracker(infer_width=640)
+                    tr = tracker.process(frame)
+                    if tr is not None:
+                        FaceTracker.draw_overlays(frame, tr)
                 # 编码与 UI 更新节流（~30 FPS）
                 if now - last_ui >= 1.0 / 30.0:
                     img.src_base64 = frame_to_jpeg_base64(frame, max_width=960, quality=80)
@@ -196,6 +208,8 @@ def main(page: ft.Page) -> None:
         finally:
             # 退出时确保资源释放与 UI 复位
             cam.close()
+            if tracker is not None:
+                tracker.close()
 
     start_btn.on_click = on_start_click
     stop_btn.on_click = on_stop_click
@@ -205,7 +219,7 @@ def main(page: ft.Page) -> None:
     page.appbar = appbar
 
     controls_row = ft.Row(
-        controls=[device_dd, res_dd, mirror_switch, start_btn, stop_btn, fps_text, status_text],
+        controls=[device_dd, res_dd, mirror_switch, track_switch, start_btn, stop_btn, fps_text, status_text],
         alignment=ft.MainAxisAlignment.START,
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
         spacing=12,
