@@ -45,10 +45,19 @@ class AppState:
     _stop_event: Optional[threading.Event] = None
 
 
-def np_to_png_base64(frame: np.ndarray) -> str:
-    """将帧编码为 PNG 的 base64（保持 BGR，不做颜色通道转换）。"""
+def frame_to_jpeg_base64(frame: np.ndarray, max_width: int = 960, quality: int = 80) -> str:
+    """缩放并编码为 JPEG 的 base64。
 
-    ok, buf = cv2.imencode(".png", frame, [cv2.IMWRITE_PNG_COMPRESSION, 3])
+    - 先将帧按宽度限制到 max_width（保持纵横比，采用 AREA 插值以提升缩小质量）
+    - 再以给定质量 JPEG 编码，减小 UI 传输/渲染开销
+    """
+
+    h, w = frame.shape[:2]
+    if w > max_width:
+        scale = max_width / float(w)
+        new_size = (int(w * scale), int(h * scale))
+        frame = cv2.resize(frame, new_size, interpolation=cv2.INTER_AREA)
+    ok, buf = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, int(quality)])
     if not ok:
         return ""
     return base64.b64encode(buf).decode("ascii")
@@ -87,7 +96,7 @@ def main(page: ft.Page) -> None:
         width=160,
     )
 
-    fps_text = ft.Text("FPS: 0.0", size=14, color="#616161")  # 灰度文字
+    fps_text = ft.Text("FPS: 0.0", size=14, color="#616161")  # 实测帧率（UI 刷新统计）
     status_text = ft.Text("就绪", size=14, color="#616161")
     mirror_switch = ft.Switch(label="镜像预览", value=True)
 
@@ -130,7 +139,7 @@ def main(page: ft.Page) -> None:
         state.device_idx = device_idx
         state.requested_resolution = res
         state.reported_resolution = False
-        status_text.value = f"采集中（设备 {device_idx}，请求 {res[0]}x{res[1]}，实际检测中…）"
+        status_text.value = f"采集中（设备 {device_idx}，请求 {res[0]}x{res[1]}，实际/驱动 FPS 检测中…）"
         start_btn.disabled = True
         stop_btn.disabled = False
         page.update()
@@ -167,11 +176,12 @@ def main(page: ft.Page) -> None:
                     state.fps = frame_count / dt
                     t0 = now
                     frame_count = 0
-                # 首帧或首次报告：显示实际分辨率
+                # 首帧或首次报告：显示实际分辨率与驱动回报 FPS
                 if not state.reported_resolution:
                     h, w = frame.shape[:2]
+                    rw, rh, r_fps = cam.get_reported_props()
                     status_text.value = (
-                        f"采集中（设备 {state.device_idx}，请求 {state.requested_resolution[0]}x{state.requested_resolution[1]}，实际 {w}x{h}）"
+                        f"采集中（设备 {state.device_idx}，请求 {state.requested_resolution[0]}x{state.requested_resolution[1]}，实际 {w}x{h}，驱动FPS {r_fps:.0f}）"
                     )
                     state.reported_resolution = True
                 # 可选镜像（自拍预览更符合直觉）
@@ -179,7 +189,7 @@ def main(page: ft.Page) -> None:
                     frame = cv2.flip(frame, 1)
                 # 编码与 UI 更新节流（~30 FPS）
                 if now - last_ui >= 1.0 / 30.0:
-                    img.src_base64 = np_to_png_base64(frame)
+                    img.src_base64 = frame_to_jpeg_base64(frame, max_width=960, quality=80)
                     fps_text.value = f"FPS: {state.fps:.1f}"
                     page.update()
                     last_ui = now

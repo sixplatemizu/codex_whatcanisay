@@ -79,11 +79,31 @@ class CameraService:
             return False
         self.cap = cap
         self.current_index = index
+        # 先尝试设置 MJPG 与目标 FPS（30），再应用分辨率
+        try:
+            fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+            self.cap.set(cv2.CAP_PROP_FOURCC, float(fourcc))
+            self.cap.set(cv2.CAP_PROP_FPS, 30.0)
+        except Exception:
+            pass
         if resolution:
             w, h = resolution
             self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, float(w))
             self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, float(h))
         return True
+
+    def get_reported_props(self) -> Tuple[int, int, float]:
+        """返回当前设备回报的 (width, height, fps)。失败返回 0 值。"""
+
+        if self.cap is None:
+            return 0, 0, 0.0
+        try:
+            w = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH) or 0)
+            h = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT) or 0)
+            fps = float(self.cap.get(cv2.CAP_PROP_FPS) or 0.0)
+            return w, h, fps
+        except Exception:
+            return 0, 0, 0.0
 
     def close(self) -> None:
         """关闭当前摄像头。"""
