@@ -1,6 +1,6 @@
 [project]
 name = "eye-track-vibecoding"
-version = "0.1.0"
+version = "0.0.1"
 description = "跨平台人脸/眼动追踪原型（Python + Flet）"
 requires-python = ">=3.11"
 dependencies = ["flet[all]==0.28.3", "opencv-python>=4.7.0", "numpy>=1.24.0", "mediapipe>=0.10.9"]
