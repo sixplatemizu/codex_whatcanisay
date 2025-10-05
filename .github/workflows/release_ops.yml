@@ -53,6 +53,9 @@ jobs:
     permissions:
       contents: write   # 创建/发布 Release、删除分支需要
       pull-requests: read
+    env:
+      # 将机密映射到 env，以便在 if 表达式中安全判断是否存在
+      REPO_ADMIN_TOKEN: ${{ secrets.REPO_ADMIN_TOKEN }}
 
     steps:
       - name: Checkout
@@ -127,12 +130,12 @@ jobs:
             }
 
       - name: Switch default branch (requires PAT)
-        if: ${{ inputs.default_branch != '' && secrets.REPO_ADMIN_TOKEN != '' }}
+        if: ${{ inputs.default_branch != '' && env.REPO_ADMIN_TOKEN != '' }}
         env:
           OWNER: ${{ steps.prep.outputs.OWNER }}
           REPO: ${{ steps.prep.outputs.REPO }}
           DEFAULT_BRANCH: ${{ inputs.default_branch }}
-          TOKEN: ${{ secrets.REPO_ADMIN_TOKEN }}
+          TOKEN: ${{ env.REPO_ADMIN_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
@@ -147,7 +150,7 @@ jobs:
           cat resp.json || true
 
       - name: Warn if PAT missing for default branch
-        if: ${{ inputs.default_branch != '' && secrets.REPO_ADMIN_TOKEN == '' }}
+        if: ${{ inputs.default_branch != '' && env.REPO_ADMIN_TOKEN == '' }}
         run: |
           echo "::warning::default_branch=${{ inputs.default_branch }} 已请求，但 secrets.REPO_ADMIN_TOKEN 未配置，跳过默认分支切换。"
 
@@ -175,4 +178,3 @@ jobs:
       - name: Output release URL
         if: ${{ steps.rel.outputs.release_url != '' }}
         run: echo "Release URL=${{ steps.rel.outputs.release_url }}"
-
