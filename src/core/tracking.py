@@ -45,6 +45,31 @@ class TrackingResult:
     face_box: Optional[Tuple[int, int, int, int]] = None  # 可选的人脸包围盒（x,y,w,h）
 
 
+class PointSmoother:
+    """二维点的指数平滑器（低延迟、轻量级）。
+
+    说明：
+    - 使用 EMA（Exponential Moving Average）对 (x, y) 进行平滑。
+    - `alpha` 越小，越平滑但滞后越明显；建议 0.3~0.8 之间调节。
+    """
+
+    def __init__(self, alpha: float = 0.6) -> None:
+        self.alpha = float(alpha)
+        self._prev: Optional[Tuple[int, int]] = None
+
+    def reset(self) -> None:
+        self._prev = None
+
+    def filter(self, pt: Tuple[int, int]) -> Tuple[int, int]:
+        if self._prev is None:
+            self._prev = pt
+            return pt
+        ax = int(self.alpha * pt[0] + (1.0 - self.alpha) * self._prev[0])
+        ay = int(self.alpha * pt[1] + (1.0 - self.alpha) * self._prev[1])
+        self._prev = (ax, ay)
+        return self._prev
+
+
 class FaceTracker:
     def __init__(
         self,
@@ -52,6 +77,8 @@ class FaceTracker:
         max_faces: int = 1,
         min_det_conf: float = 0.5,
         min_trk_conf: float = 0.5,
+        smooth_iris: bool = True,
+        smooth_alpha: float = 0.6,
     ) -> None:
         if mp is None:
             raise RuntimeError(
@@ -65,6 +92,10 @@ class FaceTracker:
             min_detection_confidence=min_det_conf,
             min_tracking_confidence=min_trk_conf,
         )
+        self.smooth_iris = bool(smooth_iris)
+        self._iris_smoothers: Optional[List[PointSmoother]] = None
+        if self.smooth_iris:
+            self._iris_smoothers = [PointSmoother(alpha=smooth_alpha), PointSmoother(alpha=smooth_alpha)]
 
     def close(self) -> None:
         try:
@@ -116,6 +147,13 @@ class FaceTracker:
                 cx = int(sum(xs) / len(xs))
                 cy = int(sum(ys) / len(ys))
                 iris_centers.append((cx, cy))
+
+        # 可选：对虹膜中心做轻量平滑，减少抖动
+        if self.smooth_iris and self._iris_smoothers is not None and len(iris_centers) == 2:
+            iris_centers = [
+                self._iris_smoothers[0].filter(iris_centers[0]),
+                self._iris_smoothers[1].filter(iris_centers[1]),
+            ]
 
         # 可选：估计包围盒（基于眼角与虹膜点的极值）
         all_pts = points + iris_centers

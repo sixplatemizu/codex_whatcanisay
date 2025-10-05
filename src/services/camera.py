@@ -60,8 +60,18 @@ class CameraService:
         """
         return [CameraInfo(index=0, name="默认摄像头")]
 
-    def open(self, index: int, resolution: Tuple[int, int] | None = None) -> bool:
-        """打开指定索引的设备，可选设置分辨率。"""
+    def open(
+        self,
+        index: int,
+        resolution: Tuple[int, int] | None = None,
+        fourcc: Optional[str] = None,
+    ) -> bool:
+        """打开指定索引的设备，可选设置分辨率与像素格式（FOURCC）。
+
+        :param index: 摄像头索引
+        :param resolution: 期望分辨率 (w, h)
+        :param fourcc: 像素格式，常用 "MJPG"、"YUY2"；None/"AUTO" 则使用默认策略
+        """
 
         self.close()
         # 按候选后端依次尝试（最多两次），避免多后端多索引的噪声
@@ -79,11 +89,20 @@ class CameraService:
             return False
         self.cap = cap
         self.current_index = index
-        # 先尝试设置 MJPG 与目标 FPS（30），再应用分辨率
+        # 先尝试设置 FOURCC 与目标 FPS（30），再应用分辨率
         try:
-            fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-            self.cap.set(cv2.CAP_PROP_FOURCC, float(fourcc))
+            sel = (fourcc or "MJPG").upper()
+            if sel == "AUTO":
+                sel = "MJPG"
+            code = cv2.VideoWriter_fourcc(*sel)
+            self.cap.set(cv2.CAP_PROP_FOURCC, float(code))
             self.cap.set(cv2.CAP_PROP_FPS, 30.0)
+            # 尝试降低内部缓冲，减少延迟（部分平台与后端支持）
+            if hasattr(cv2, "CAP_PROP_BUFFERSIZE"):
+                try:
+                    self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 1.0)
+                except Exception:
+                    pass
         except Exception:
             pass
         if resolution:
