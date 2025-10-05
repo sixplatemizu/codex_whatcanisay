@@ -33,7 +33,8 @@ Thumbs.db
 assets/samples/
 assets/recordings/
 
-# Papers large artifacts
+# Papers (ignore folder) & large artifacts
+papers/
 papers/**/*.pdf
 papers/**/*.jpg
 papers/**/*.png
