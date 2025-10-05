@@ -1,0 +1,178 @@
+# GitHub Actions：手动触发的发布与分支维护工作流
+# 功能：
+# - 发布指定 tag 的 Release：若已存在且为草稿可发布；若不存在可选择自动创建
+# - 可选：自动生成发布说明或使用自定义说明
+# - 可选：切换仓库默认分支（需提供具有仓库“管理/管理员”权限的 PAT：REPO_ADMIN_TOKEN）
+# - 可选：删除远端分支（如 release/0.1.1）
+
+name: Release Ops
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "目标 tag（例如 v0.1.1）"
+        required: true
+        type: string
+      target:
+        description: "target_commitish（默认 master，可为分支或 SHA）"
+        required: false
+        default: master
+        type: string
+      publish_if_exists:
+        description: "若存在 Release 草稿则发布"
+        required: false
+        default: true
+        type: boolean
+      create_if_missing:
+        description: "若不存在 Release 则自动创建"
+        required: false
+        default: true
+        type: boolean
+      generate_notes:
+        description: "创建时自动生成发布说明（与 notes 二选一）"
+        required: false
+        default: true
+        type: boolean
+      notes:
+        description: "自定义发布说明（可选，若填写将覆盖 generate_notes）"
+        required: false
+        type: string
+      default_branch:
+        description: "设置仓库默认分支（可选，需配置 REPO_ADMIN_TOKEN）"
+        required: false
+        type: string
+      delete_branch:
+        description: "删除远端分支名（可选，如 release/0.1.1）"
+        required: false
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # 创建/发布 Release、删除分支需要
+      pull-requests: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare variables
+        id: prep
+        shell: bash
+        run: |
+          echo "OWNER=${GITHUB_REPOSITORY%/*}" >> "$GITHUB_OUTPUT"
+          echo "REPO=${GITHUB_REPOSITORY#*/}" >> "$GITHUB_OUTPUT"
+
+      - name: Get or create release
+        id: rel
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = '${{ steps.prep.outputs.OWNER }}';
+            const repo  = '${{ steps.prep.outputs.REPO }}';
+            const tag = '${{ inputs.tag }}';
+            const target = '${{ inputs.target }}';
+            const publishIfExists = ${{ inputs.publish_if_exists }};
+            const createIfMissing = ${{ inputs.create_if_missing }};
+            const generateNotes = ${{ inputs.generate_notes }};
+            const notes = `${{ inputs.notes }}`; // 可能为空字符串
+            function nonEmpty(s){ return s && s.trim().length>0; }
+
+            let release;
+            try {
+              const r = await github.rest.repos.getReleaseByTag({ owner, repo, tag });
+              release = r.data;
+              core.info(`Found release id=${release.id}, draft=${release.draft}`);
+              if (release.draft && publishIfExists) {
+                const upd = await github.rest.repos.updateRelease({
+                  owner, repo, release_id: release.id, draft: false
+                });
+                release = upd.data;
+                core.info(`Published draft -> id=${release.id}`);
+              }
+            } catch (e) {
+              if (e.status === 404) {
+                core.info('No release for tag.');
+                if (createIfMissing) {
+                  const payload = {
+                    owner, repo,
+                    tag_name: tag,
+                    name: tag,
+                    draft: false,
+                    prerelease: false,
+                    target_commitish: target
+                  };
+                  if (nonEmpty(notes)) {
+                    payload.body = notes;
+                  } else {
+                    payload.generate_release_notes = !!generateNotes;
+                  }
+                  const created = await github.rest.repos.createRelease(payload);
+                  release = created.data;
+                  core.info(`Created release id=${release.id}`);
+                } else {
+                  core.info('create_if_missing=false, skip creating.');
+                }
+              } else {
+                throw e;
+              }
+            }
+            if (release?.html_url) {
+              core.setOutput('release_url', release.html_url);
+            }
+
+      - name: Switch default branch (requires PAT)
+        if: ${{ inputs.default_branch != '' && secrets.REPO_ADMIN_TOKEN != '' }}
+        env:
+          OWNER: ${{ steps.prep.outputs.OWNER }}
+          REPO: ${{ steps.prep.outputs.REPO }}
+          DEFAULT_BRANCH: ${{ inputs.default_branch }}
+          TOKEN: ${{ secrets.REPO_ADMIN_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "PATCH /repos/${OWNER}/${REPO} default_branch=${DEFAULT_BRANCH}"
+          http_code=$(curl -sS -o resp.json -w "%{http_code}" \
+            -X PATCH \
+            -H "Authorization: Bearer ${TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${OWNER}/${REPO}" \
+            -d "{\"default_branch\":\"${DEFAULT_BRANCH}\"}")
+          echo "HTTP=${http_code}"
+          cat resp.json || true
+
+      - name: Warn if PAT missing for default branch
+        if: ${{ inputs.default_branch != '' && secrets.REPO_ADMIN_TOKEN == '' }}
+        run: |
+          echo "::warning::default_branch=${{ inputs.default_branch }} 已请求，但 secrets.REPO_ADMIN_TOKEN 未配置，跳过默认分支切换。"
+
+      - name: Delete remote branch
+        if: ${{ inputs.delete_branch != '' }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = '${{ steps.prep.outputs.OWNER }}';
+            const repo  = '${{ steps.prep.outputs.REPO }}';
+            const b = '${{ inputs.delete_branch }}';
+            const ref = `heads/${b}`;
+            try {
+              await github.rest.git.deleteRef({ owner, repo, ref });
+              core.info(`Deleted ${b}`);
+            } catch (e) {
+              if (e.status === 422 || e.status === 404) {
+                core.info(`Branch ${b} not found or already deleted. Skip.`);
+              } else {
+                throw e;
+              }
+            }
+
+      - name: Output release URL
+        if: ${{ steps.rel.outputs.release_url != '' }}
+        run: echo "Release URL=${{ steps.rel.outputs.release_url }}"
+
