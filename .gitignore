@@ -39,3 +39,5 @@ papers/**/*.pdf
 papers/**/*.jpg
 papers/**/*.png
 
+# Agent 配置（本地协作用，不参与版本控制）
+AGENTS.md
