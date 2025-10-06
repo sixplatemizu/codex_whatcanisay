@@ -39,5 +39,9 @@ papers/**/*.pdf
 papers/**/*.jpg
 papers/**/*.png
 
+# Session logs（本地数据不入库）
+sessions/
+sessions/**/*.json
+
 # Agent 配置（本地协作用，不参与版本控制）
 AGENTS.md
