@@ -419,10 +419,24 @@ def main(page: ft.Page) -> None:
         maintain_state=True,
     )
 
+    # 品牌抬头（更明显的视觉差异）
+    header = ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text("Yamagata Eye Tracking", size=22, weight=ft.FontWeight.W_700),
+                ft.Text("实时人脸与眼部叠加预览", size=13, color="#8E8E93"),
+            ],
+            spacing=2,
+        ),
+        padding=0,
+        bgcolor=ft.colors.TRANSPARENT,
+    )
+
     content_column = ft.Column(
         expand=1,
         spacing=12,
         controls=[
+            header,
             top_bar,
             ft.Container(expand=1, content=preview_container),
             diag_tile,
@@ -465,6 +479,8 @@ def main(page: ft.Page) -> None:
         inferw_dd.col = 2
         mirror_switch.col = 1
         track_switch.col = 1
+        minimal_switch = ft.Switch(label="极简模式", value=False)
+        minimal_switch.col = 2
         start_btn.col = 2
         stop_btn.col = 2
 
@@ -476,6 +492,7 @@ def main(page: ft.Page) -> None:
                 inferw_dd,
                 mirror_switch,
                 track_switch,
+                minimal_switch,
                 start_btn,
                 stop_btn,
             ],
@@ -483,6 +500,17 @@ def main(page: ft.Page) -> None:
             alignment=ft.MainAxisAlignment.START,
         )
         top_bar.content = controls_grid
+        # 极简模式：隐藏部分高级控件与诊断区
+        def apply_mode(e=None):
+            minimal = bool(minimal_switch.value)
+            for c in (res_dd, fourcc_dd, inferw_dd, diag_tile):
+                try:
+                    c.visible = not minimal
+                except Exception:
+                    pass
+            page.update()
+        minimal_switch.on_change = apply_mode
+        apply_mode()
     except Exception:
         pass
 
