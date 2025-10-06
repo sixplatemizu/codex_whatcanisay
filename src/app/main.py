@@ -429,7 +429,7 @@ def main(page: ft.Page) -> None:
             spacing=2,
         ),
         padding=0,
-        bgcolor=ft.colors.TRANSPARENT,
+        bgcolor=None,
     )
 
     content_column = ft.Column(
