@@ -77,6 +77,14 @@ def main(page: ft.Page) -> None:
     page.window_width = 1100
     page.window_height = 740
     page.theme_mode = ft.ThemeMode.LIGHT
+    # Apple 风格样式覆盖
+    page.title = "Yamagata Eye Tracking"
+    page.window_width = 1120
+    page.window_height = 760
+    page.theme = ft.Theme(color_scheme_seed="#0A84FF", use_material3=True)
+    page.padding = 20
+    page.bgcolor = "#F5F6F7"
+    page.scroll = ft.ScrollMode.ADAPTIVE
     page.padding = 16
     page.bgcolor = "#FAFAFA"  # 浅色背景，避免依赖 flet.colors
 
@@ -340,10 +348,38 @@ def main(page: ft.Page) -> None:
                 tracker.close()
     start_btn.on_click = on_start_click
     stop_btn.on_click = on_stop_click
+    # UI 文案与控件样式微调（Apple 风格）
+    try:
+        # 文案（中文化）
+        status_text.value = status_text.value or "就绪"
+        device_dd.label = "摄像头"
+        res_dd.label = "分辨率"
+        fourcc_dd.label = "像素格式"
+        inferw_dd.label = "推理宽度"
+        mirror_switch.label = "镜像预览"
+        track_switch.label = "人脸/眼部叠加"
+        start_btn.text = "开始"
+        stop_btn.text = "停止"
+        # 按钮圆角与图标
+        start_btn.icon = ft.icons.PLAY_ARROW_ROUNDED
+        stop_btn.icon = ft.icons.STOP_CIRCLE_OUTLINED
+        start_btn.style = ft.ButtonStyle(
+            shape=ft.RoundedRectangleBorder(radius=22),
+            padding=ft.padding.symmetric(horizontal=18, vertical=10),
+        )
+        stop_btn.style = ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=22))
+    except Exception:
+        pass
 
     # 布局
     appbar = ft.AppBar(title=ft.Text("眼动追踪原型"), center_title=False, bgcolor="#ECEFF1")
     page.appbar = appbar
+    try:
+        page.appbar.title = ft.Text("Yamagata Eye Tracking", weight=ft.FontWeight.W_600)
+        page.appbar.bgcolor = "#FFFFFF"
+        page.appbar.elevation = 0
+    except Exception:
+        pass
 
     controls_row = ft.Row(
         controls=[device_dd, res_dd, fourcc_dd, inferw_dd, toggles_row, start_btn, stop_btn],
@@ -353,11 +389,26 @@ def main(page: ft.Page) -> None:
         wrap=True,
         run_spacing=8,
     )
+    # 顶部控制条容器（白底圆角）
+    top_bar = ft.Container(
+        content=controls_row,
+        padding=15,
+        bgcolor="#FFFFFF",
+        border_radius=16,
+    )
 
     preview_card = ft.Card(
         content=ft.Container(content=img, padding=10, expand=1),
         elevation=2,
         clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
+    )
+    # 简洁白卡预览容器（可替代 Card 使用）
+    preview_container = ft.Container(
+        content=img,
+        padding=12,
+        bgcolor="#FFFFFF",
+        border_radius=20,
+        expand=1,
     )
 
     # 诊断信息使用可折叠面板，默认收起，避免占用空间
@@ -370,15 +421,19 @@ def main(page: ft.Page) -> None:
 
     content_column = ft.Column(
         expand=1,
-        spacing=8,
+        spacing=12,
         controls=[
-            controls_row,
-            ft.Container(expand=1, content=preview_card),
+            top_bar,
+            ft.Container(expand=1, content=preview_container),
             diag_tile,
         ],
     )
 
     page.add(content_column)
+    try:
+        diag_tile.title = ft.Text("诊断信息（可展开）")
+    except Exception:
+        pass
 
     def on_close(e: ft.ControlEvent) -> None:
         if state._stop_event:
