@@ -435,6 +435,57 @@ def main(page: ft.Page) -> None:
     except Exception:
         pass
 
+    # 自适应顶栏布局（ResponsiveRow）与中文化/样式统一
+    try:
+        # 中文化标签
+        device_dd.label = "摄像头"
+        res_dd.label = "分辨率"
+        fourcc_dd.label = "像素格式"
+        inferw_dd.label = "推理宽度"
+        mirror_switch.label = "镜像预览"
+        track_switch.label = "人脸/眼部叠加"
+        start_btn.text = "开始"
+        stop_btn.text = "停止"
+
+        # 视觉样式
+        start_btn.icon = ft.icons.PLAY_ARROW_ROUNDED
+        stop_btn.icon = ft.icons.STOP_CIRCLE_OUTLINED
+        start_btn.style = ft.ButtonStyle(
+            shape=ft.RoundedRectangleBorder(radius=22),
+            padding=ft.padding.symmetric(horizontal=18, vertical=10),
+        )
+        stop_btn.style = ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=22))
+        metrics_text.size = 13
+        metrics_text.color = "#6D6D6D"
+
+        # 自适应栅格布局（12 列）
+        device_dd.col = 4
+        res_dd.col = 2
+        fourcc_dd.col = 2
+        inferw_dd.col = 2
+        mirror_switch.col = 1
+        track_switch.col = 1
+        start_btn.col = 2
+        stop_btn.col = 2
+
+        controls_grid = ft.ResponsiveRow(
+            controls=[
+                device_dd,
+                res_dd,
+                fourcc_dd,
+                inferw_dd,
+                mirror_switch,
+                track_switch,
+                start_btn,
+                stop_btn,
+            ],
+            run_spacing=10,
+            alignment=ft.MainAxisAlignment.START,
+        )
+        top_bar.content = controls_grid
+    except Exception:
+        pass
+
     def on_close(e: ft.ControlEvent) -> None:
         if state._stop_event:
             state._stop_event.set()
