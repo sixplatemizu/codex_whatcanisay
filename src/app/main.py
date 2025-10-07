@@ -33,6 +33,9 @@ if SRC_DIR not in sys.path:
 
 from services.camera import CameraService
 from core.tracking import FaceTracker
+from core.calibration import AffineCalibrator, average_iris_center
+from core.metrics import ROI, compute_metrics_for_rois
+from services.session_logger import SessionLogger
 
 
 @dataclass
