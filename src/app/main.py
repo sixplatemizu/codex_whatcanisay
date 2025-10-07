@@ -33,7 +33,7 @@ if SRC_DIR not in sys.path:
 
 from services.camera import CameraService
 from core.tracking import FaceTracker
-from core.calibration import AffineCalibrator, average_iris_center
+from core.calibration import AffineCalibrator, AffineCalibrationModel, average_iris_center
 from core.metrics import ROI, compute_metrics_for_rois
 from services.session_logger import SessionLogger
 
@@ -55,6 +55,17 @@ class AppState:
     # 参数
     infer_width: int = 640
     fourcc: str = "AUTO"
+    # 校准与指标
+    calibrator: Optional[AffineCalibrator] = None
+    cal_targets: Optional[list[tuple[float, float]]] = None
+    cal_idx: int = 0
+    cal_collect_frames_remaining: int = 0
+    cal_collect_buffer: Optional[list[tuple[float, float]]] = None
+    cal_model: Optional[AffineCalibrationModel] = None
+    # 运行期状态
+    last_iris_px: Optional[tuple[int, int]] = None
+    gaze_series: Optional[list[tuple[float, float, float, bool]]] = None  # (t_ms,u,v,valid)
+    session_logger: Optional[SessionLogger] = None
 
 
 def frame_to_jpeg_base64(frame: np.ndarray, max_width: int = 960, quality: int = 80) -> str:
@@ -150,6 +161,11 @@ def main(page: ft.Page) -> None:
         expand=1,
     )
 
+    # 校准相关按钮（最小流程：校准 → 采样 → 完成校准）
+    cal_start_btn = ft.OutlinedButton("校准", icon="my_location")
+    cal_sample_btn = ft.OutlinedButton("采样", icon="add_task", disabled=True)
+    cal_fit_btn = ft.FilledButton("完成校准", icon="check_circle", disabled=True)
+
     start_btn = ft.ElevatedButton("启动", icon="play_arrow")
     stop_btn = ft.OutlinedButton("停止", icon="stop", disabled=True)
 
@@ -189,6 +205,19 @@ def main(page: ft.Page) -> None:
         state.requested_resolution = res
         state.reported_resolution = False
         state.frame_queue = queue.Queue(maxsize=1)
+        # 初始化校准/指标/日志
+        state.calibrator = AffineCalibrator()
+        state.cal_targets = None
+        state.cal_idx = 0
+        state.cal_collect_frames_remaining = 0
+        state.cal_collect_buffer = None
+        state.cal_model = None
+        state.gaze_series = []
+        state.session_logger = SessionLogger()
+        try:
+            state.session_logger.set_device_info(index=device_idx, requested=f"{res[0]}x{res[1]}", fourcc=state.fourcc)
+        except Exception:
+            pass
         # 回填实际分辨率到下拉（若可读）
         rw, rh, _rfps = cam.get_reported_props()
         if rw > 0 and rh > 0:
@@ -315,6 +344,44 @@ def main(page: ft.Page) -> None:
                             last_infer_ms = (time.perf_counter() - t_infer0) * 1000.0
                             if tr is not None:
                                 FaceTracker.draw_overlays(frame, tr)
+                                # 提取虹膜中心并记录
+                                try:
+                                    iris_px = average_iris_center(tr.iris_centers)
+                                except Exception:
+                                    iris_px = None
+                                state.last_iris_px = iris_px
+                                # 校准目标指示与采样
+                                try:
+                                    h0, w0 = frame.shape[:2]
+                                    if state.cal_targets and state.cal_idx < len(state.cal_targets):
+                                        tu, tv = state.cal_targets[state.cal_idx]
+                                        cx, cy = int(tu * w0), int(tv * h0)
+                                        cv2.circle(frame, (cx, cy), 8, (0, 170, 255), thickness=2, lineType=cv2.LINE_AA)
+                                    if state.cal_collect_frames_remaining and state.cal_collect_frames_remaining > 0:
+                                        if iris_px is not None:
+                                            if state.cal_collect_buffer is None:
+                                                state.cal_collect_buffer = []
+                                            state.cal_collect_buffer.append(iris_px)
+                                            state.cal_collect_frames_remaining -= 1
+                                            if state.cal_collect_frames_remaining <= 0 and state.cal_collect_buffer:
+                                                xs = [p[0] for p in state.cal_collect_buffer]
+                                                ys = [p[1] for p in state.cal_collect_buffer]
+                                                avg_src = (float(sum(xs) / len(xs)), float(sum(ys) / len(ys)))
+                                                if state.cal_targets and state.cal_idx < len(state.cal_targets) and state.calibrator is not None:
+                                                    dst_uv = state.cal_targets[state.cal_idx]
+                                                    state.calibrator.add_sample(avg_src, dst_uv)
+                                                    state.cal_idx += 1
+                                                    status_text.value = f"已采样 {state.calibrator.num_samples} 个点"
+                                                    # 允许继续采样或拟合
+                                                    try:
+                                                        cal_sample_btn.disabled = False if state.cal_idx < len(state.cal_targets) else True
+                                                        cal_fit_btn.disabled = False if state.calibrator.num_samples >= 3 else True
+                                                    except Exception:
+                                                        pass
+                                                    page.update()
+                                                state.cal_collect_buffer = None
+                                except Exception:
+                                    pass
                         except Exception as ex:
                             # 推理失败时关闭叠加，避免线程退出导致黑屏
                             track_switch.value = False
@@ -322,6 +389,24 @@ def main(page: ft.Page) -> None:
                             page.update()
 
                 now = time.perf_counter()
+                # 收集 gaze（归一化/经校准）
+                try:
+                    if state.gaze_series is not None:
+                        t_ms = now * 1000.0
+                        h0, w0 = frame.shape[:2]
+                        if state.last_iris_px is not None:
+                            if state.cal_model is not None:
+                                u, v = state.cal_model.predict(state.last_iris_px)
+                            else:
+                                u = float(state.last_iris_px[0]) / float(w0)
+                                v = float(state.last_iris_px[1]) / float(h0)
+                            state.gaze_series.append((t_ms, u, v, True))
+                        else:
+                            state.gaze_series.append((t_ms, 0.0, 0.0, False))
+                        if len(state.gaze_series) > 5000:
+                            state.gaze_series = state.gaze_series[-4000:]
+                except Exception:
+                    pass
                 # 编码与 UI 更新节流（~30 FPS）
                 if now - last_ui >= 1.0 / 30.0:
                     # 动态调整 JPEG 质量以平衡清晰度与 CPU
@@ -341,15 +426,86 @@ def main(page: ft.Page) -> None:
         finally:
             if tracker is not None:
                 tracker.close()
+    # 校准事件处理
+    def on_cal_start(e: ft.ControlEvent) -> None:
+        # 定义 5 点校准目标：中心 + 四角
+        state.calibrator = AffineCalibrator()
+        state.cal_targets = [(0.5, 0.5), (0.15, 0.15), (0.85, 0.15), (0.85, 0.85), (0.15, 0.85)]
+        state.cal_idx = 0
+        state.cal_collect_frames_remaining = 0
+        state.cal_collect_buffer = None
+        state.cal_model = None
+        try:
+            cal_sample_btn.disabled = False
+            cal_fit_btn.disabled = True
+        except Exception:
+            pass
+        status_text.value = "校准开始：请将视线移至目标点，点击采样"
+        page.update()
+
+    def on_cal_sample(e: ft.ControlEvent) -> None:
+        if not state.capturing or state.cal_targets is None:
+            return
+        if state.cal_idx >= len(state.cal_targets):
+            status_text.value = "采样完成：请点击完成校准"
+            try:
+                cal_sample_btn.disabled = True
+                cal_fit_btn.disabled = state.calibrator.num_samples < 3 if state.calibrator else True
+            except Exception:
+                pass
+            page.update()
+            return
+        state.cal_collect_frames_remaining = 12  # 收集 12 帧做均值
+        state.cal_collect_buffer = []
+        status_text.value = f"采样中… 第 {state.cal_idx + 1} 点"
+        try:
+            cal_sample_btn.disabled = True
+        except Exception:
+            pass
+        page.update()
+
+    def on_cal_fit(e: ft.ControlEvent) -> None:
+        try:
+            if state.calibrator is None or state.calibrator.num_samples < 3:
+                status_text.value = "样本不足，至少 3 点"
+                page.update()
+                return
+            state.cal_model = state.calibrator.fit()
+            status_text.value = f"校准完成：{state.calibrator.num_samples} 点"
+            if state.session_logger is not None and state.cal_model is not None:
+                state.session_logger.set_meta(calibration=state.cal_model.to_dict())
+        except Exception as ex:
+            status_text.value = f"校准失败：{ex}"
+        try:
+            cal_sample_btn.disabled = True
+            cal_fit_btn.disabled = False
+        except Exception:
+            pass
+        page.update()
+
     start_btn.on_click = on_start_click
     stop_btn.on_click = on_stop_click
+    cal_start_btn.on_click = on_cal_start
+    cal_sample_btn.on_click = on_cal_sample
+    cal_fit_btn.on_click = on_cal_fit
 
     # 布局
     appbar = ft.AppBar(title=ft.Text("眼动追踪原型"), center_title=False, bgcolor="#ECEFF1")
     page.appbar = appbar
 
     controls_row = ft.Row(
-        controls=[device_dd, res_dd, fourcc_dd, inferw_dd, toggles_row, start_btn, stop_btn],
+        controls=[
+            device_dd,
+            res_dd,
+            fourcc_dd,
+            inferw_dd,
+            toggles_row,
+            start_btn,
+            stop_btn,
+            cal_start_btn,
+            cal_sample_btn,
+            cal_fit_btn,
+        ],
         alignment=ft.MainAxisAlignment.START,
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
         spacing=12,
