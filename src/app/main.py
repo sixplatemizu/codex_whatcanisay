@@ -18,7 +18,7 @@ import sys
 import threading
 import time
 from dataclasses import dataclass
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List
 import queue
 
 import cv2
@@ -67,6 +67,12 @@ class AppState:
     gaze_series: Optional[list[tuple[float, float, float, bool]]] = None  # (t_ms,u,v,valid)
     session_logger: Optional[SessionLogger] = None
     last_gaze_uv: Optional[tuple[float, float]] = None
+    # 任务（左右 ROI 极简任务）
+    task_running: bool = False
+    task_start_ms: float = 0.0
+    task_end_ms: float = 0.0
+    task_duration_ms: int = 10000
+    rois: Optional[List[ROI]] = None
 
 
 def frame_to_jpeg_base64(frame: np.ndarray, max_width: int = 960, quality: int = 80) -> str:
@@ -365,10 +371,18 @@ def main(page: ft.Page) -> None:
                                 # 校准目标指示与采样
                                 try:
                                     h0, w0 = frame.shape[:2]
-                                    if state.cal_targets and state.cal_idx < len(state.cal_targets):
-                                        tu, tv = state.cal_targets[state.cal_idx]
-                                        cx, cy = int(tu * w0), int(tv * h0)
-                                        cv2.circle(frame, (cx, cy), 8, (0, 170, 255), thickness=2, lineType=cv2.LINE_AA)
+                                if state.cal_targets and state.cal_idx < len(state.cal_targets):
+                                    tu, tv = state.cal_targets[state.cal_idx]
+                                    cx, cy = int(tu * w0), int(tv * h0)
+                                    cv2.circle(frame, (cx, cy), 8, (0, 170, 255), thickness=2, lineType=cv2.LINE_AA)
+                                # 任务 ROI 可视化
+                                if state.task_running and state.rois:
+                                    for r in state.rois:
+                                        x0 = int(r.x0 * w0)
+                                        y0 = int(r.y0 * h0)
+                                        x1 = int(r.x1 * w0)
+                                        y1 = int(r.y1 * h0)
+                                        cv2.rectangle(frame, (x0, y0), (x1, y1), (100, 200, 255), thickness=2, lineType=cv2.LINE_AA)
                                     if state.cal_collect_frames_remaining and state.cal_collect_frames_remaining > 0:
                                         if iris_px is not None:
                                             if state.cal_collect_buffer is None:
@@ -400,9 +414,9 @@ def main(page: ft.Page) -> None:
                             status_text.value = f"推理错误：{ex}（已关闭叠加）"
                             page.update()
                 
-                # 若未开启叠加但需要凝视点/校准采样，补充一次追踪计算以更新 last_iris_px
+                # 若未开启叠加但需要凝视点/校准采样/任务 ROI，可补充一次追踪计算以更新 last_iris_px
                 try:
-                    if (not track_switch.value) and (state.last_iris_px is None):
+                    if (not track_switch.value) and (state.last_iris_px is None or state.task_running):
                         if tracker is None:
                             try:
                                 tracker = FaceTracker(
@@ -420,7 +434,7 @@ def main(page: ft.Page) -> None:
                     pass
 
                 now = time.perf_counter()
-                # 收集 gaze（归一化/经校准）
+                # 收集 gaze（归一化/经校准）并在任务结束时计算指标
                 try:
                     if state.gaze_series is not None:
                         t_ms = now * 1000.0
@@ -446,6 +460,23 @@ def main(page: ft.Page) -> None:
                             state.last_gaze_uv = None
                         if len(state.gaze_series) > 5000:
                             state.gaze_series = state.gaze_series[-4000:]
+                        # 任务结束判定与指标计算
+                        if state.task_running and (t_ms >= state.task_end_ms):
+                            state.task_running = False
+                            # 计算 ROI 指标
+                            try:
+                                if state.rois:
+                                    result = compute_metrics_for_rois(state.gaze_series, state.rois, min_fix_ms=120.0)
+                                    status_text.value = (
+                                        f"任务结束 | 左停留 {int(result['left']['dwell_ms'])}ms, 右停留 {int(result['right']['dwell_ms'])}ms; "
+                                        f"左首注 {result['left']['first_fix_ms']}ms, 右首注 {result['right']['first_fix_ms']}ms"
+                                    )
+                                    if state.session_logger is not None:
+                                        state.session_logger.set_metrics(task_metrics=result)
+                                        state.session_logger.add_event("task_end")
+                                        state.session_logger.save()
+                            except Exception:
+                                pass
                 except Exception:
                     pass
                 # 编码与 UI 更新节流（~30 FPS）
@@ -626,23 +657,59 @@ def main(page: ft.Page) -> None:
     cal_sample_btn.on_click = on_cal_sample
     cal_fit_btn.on_click = on_cal_fit
     strict_switch.on_change = on_strict_change
+    
+    # 任务开始：左右 ROI 极简任务（10 秒）
+    def on_task_start(e: ft.ControlEvent) -> None:
+        # 严格模式需先完成校准
+        if strict_switch.value and state.cal_model is None:
+            status_text.value = "严格模式：请先完成 5 点校准"
+            page.update()
+            return
+        if not state.capturing:
+            status_text.value = "请先点击开始，打开摄像头"
+            page.update()
+            return
+        # 定义左右 ROI（归一化坐标）
+        state.rois = [
+            ROI(name="left", x0=0.05, y0=0.2, x1=0.45, y1=0.8),
+            ROI(name="right", x0=0.55, y0=0.2, x1=0.95, y1=0.8),
+        ]
+        state.gaze_series = []
+        now_ms = time.perf_counter() * 1000.0
+        state.task_running = True
+        state.task_start_ms = now_ms
+        state.task_end_ms = now_ms + float(state.task_duration_ms)
+        status_text.value = "任务开始：请随意注视左右区域（10s）"
+        try:
+            if state.session_logger is not None:
+                state.session_logger.add_event(
+                    "task_start",
+                    duration_ms=state.task_duration_ms,
+                    rois=[r.__dict__ for r in state.rois],
+                )
+        except Exception:
+            pass
+        page.update()
+
+    task_btn.on_click = on_task_start
 
     # 布局
     appbar = ft.AppBar(title=ft.Text("眼动追踪原型"), center_title=False, bgcolor="#ECEFF1")
     page.appbar = appbar
 
-    controls_row = ft.Row(
-        controls=[
-            device_dd,
-            res_dd,
-            fourcc_dd,
-            inferw_dd,
-            start_btn,
-            stop_btn,
-            cal_start_btn,
-            cal_sample_btn,
-            cal_fit_btn,
-        ],
+    selectors_row = ft.Row(
+        controls=[device_dd, res_dd, fourcc_dd, inferw_dd],
+        alignment=ft.MainAxisAlignment.CENTER,
+        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+        spacing=12,
+        wrap=True,
+        run_spacing=8,
+    )
+
+    task_btn = ft.FilledButton("开始任务", icon="flag")
+
+    actions_row = ft.Row(
+        controls=[start_btn, stop_btn, cal_start_btn, cal_sample_btn, cal_fit_btn, task_btn],
         alignment=ft.MainAxisAlignment.CENTER,
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
         spacing=12,
@@ -670,7 +737,8 @@ def main(page: ft.Page) -> None:
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         controls=[
             switches_row,
-            controls_row,
+            selectors_row,
+            actions_row,
             ft.Row(controls=[preview_card], alignment=ft.MainAxisAlignment.CENTER, expand=1),
             diag_tile,
         ],
