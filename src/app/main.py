@@ -36,6 +36,16 @@ from core.tracking import FaceTracker
 from core.calibration import AffineCalibrator, AffineCalibrationModel, average_iris_center
 from core.metrics import ROI, compute_metrics_for_rois
 from services.session_logger import SessionLogger
+try:
+    from app.stimulus_player import (
+        StimulusPlayer,
+        StimulusTimeline,
+        load_timeline_from_json,
+    )
+except Exception:
+    StimulusPlayer = None  # type: ignore
+    StimulusTimeline = None  # type: ignore
+    load_timeline_from_json = None  # type: ignore
 
 
 @dataclass
@@ -73,6 +83,11 @@ class AppState:
     task_end_ms: float = 0.0
     task_duration_ms: int = 10000
     rois: Optional[List[ROI]] = None
+    # 刺激/时间轴
+    stimulus_id: Optional[str] = None
+    stim_running: bool = False
+    stim_player: Optional["StimulusPlayer"] = None
+    stim_video_src: Optional[str] = None
 
 
 def frame_to_jpeg_base64(frame: np.ndarray, max_width: int = 960, quality: int = 80) -> str:
@@ -179,6 +194,35 @@ def main(page: ft.Page) -> None:
     start_btn = ft.ElevatedButton("启动", icon="play_arrow")
     stop_btn = ft.OutlinedButton("停止", icon="stop", disabled=True)
     task_btn = ft.FilledButton("开始任务", icon="flag")
+
+    # 刺激与时间轴（最小版 UI）
+    def list_stimuli() -> list[tuple[str, str]]:
+        base = os.path.abspath(os.path.join(CURRENT_DIR, "..", "..", "assets", "stimuli"))
+        out: list[tuple[str, str]] = []
+        try:
+            for fn in os.listdir(base):
+                if fn.lower().endswith(".mp4"):
+                    stim_id = os.path.splitext(fn)[0]
+                    out.append((stim_id, os.path.join(base, fn)))
+        except Exception:
+            pass
+        out.sort()
+        return out
+
+    stim_items = list_stimuli()
+    stim_dd = ft.Dropdown(
+        label="刺激",
+        options=[ft.dropdown.Option(k) for (k, _p) in stim_items] or [ft.dropdown.Option("")],
+        value=(stim_items[0][0] if stim_items else None),
+        width=180,
+    )
+    stim_play_btn = ft.FilledButton("播放刺激", icon="smart_display")
+    stim_stop_btn = ft.OutlinedButton("停止刺激", icon="stop_circle", disabled=True)
+    stim_status_text = ft.Text("刺激：未加载", size=14, color="#616161")
+    try:
+        stim_video = ft.Video(src=None, autoplay=True, playlist=None, expand=1)  # 尝试最小参数
+    except Exception:
+        stim_video = None  # type: ignore
 
     def parse_device_value(val: str) -> int:
         try:
@@ -502,6 +546,80 @@ def main(page: ft.Page) -> None:
             if tracker is not None:
                 tracker.close()
 
+    # 刺激事件处理与时间轴绑定
+    def on_stim_event(name: str, payload: dict) -> None:
+        # 简单展示与日志落盘（后续可扩展为片段级指标）
+        try:
+            if name == "stimulus_start":
+                stim_status_text.value = f"刺激开始：{state.stimulus_id}"
+            elif name == "stimulus_stop":
+                stim_status_text.value = "刺激已停止"
+            elif name == "segment_enter":
+                stim_status_text.value = f"进入片段：{payload.get('name')}"
+            elif name == "name_call":
+                stim_status_text.value = f"呼名：{payload.get('label')}"
+            elif name == "dialogue_turn_start":
+                stim_status_text.value = f"对话开始（{payload.get('speaker')}）"
+            page.update()
+        except Exception:
+            pass
+        try:
+            if state.session_logger is not None:
+                state.session_logger.add_event(name, **payload)
+        except Exception:
+            pass
+
+    def on_stim_play(e: ft.ControlEvent) -> None:
+        if StimulusPlayer is None:
+            status_text.value = "当前环境未提供 StimulusPlayer（导入失败）"
+            page.update()
+            return
+        sid = stim_dd.value or ""
+        if not sid:
+            stim_status_text.value = "未选择刺激"
+            page.update()
+            return
+        # 定位资源
+        base = os.path.abspath(os.path.join(CURRENT_DIR, "..", "..", "assets", "stimuli"))
+        video_path = os.path.join(base, f"{sid}.mp4")
+        json_path = os.path.join(base, f"{sid}.json")
+        if not os.path.exists(video_path) or not os.path.exists(json_path):
+            stim_status_text.value = "缺少视频或时间轴 JSON"
+            page.update()
+            return
+        # 装载时间轴与播放器
+        try:
+            tl = load_timeline_from_json(json_path)
+            player = StimulusPlayer(sid, tl)
+            player.on_event = on_stim_event
+            state.stimulus_id = sid
+            state.stim_player = player
+            state.stim_running = True
+            state.stim_video_src = video_path
+            if stim_video is not None:
+                try:
+                    stim_video.src = video_path
+                except Exception:
+                    pass
+            player.start()
+            stim_play_btn.disabled = True
+            stim_stop_btn.disabled = False
+            page.update()
+        except Exception as ex:
+            stim_status_text.value = f"刺激启动失败：{ex}"
+            page.update()
+
+    def on_stim_stop(e: ft.ControlEvent) -> None:
+        try:
+            if state.stim_player is not None:
+                state.stim_player.stop()
+        except Exception:
+            pass
+        state.stim_running = False
+        stim_play_btn.disabled = False
+        stim_stop_btn.disabled = True
+        page.update()
+
     # 校准事件处理
     def on_cal_start(e: ft.ControlEvent) -> None:
         # 在严格模式下，若未启动采集则先启动摄像头，进入校准预览
@@ -656,6 +774,8 @@ def main(page: ft.Page) -> None:
     cal_sample_btn.on_click = on_cal_sample
     cal_fit_btn.on_click = on_cal_fit
     strict_switch.on_change = on_strict_change
+    stim_play_btn.on_click = on_stim_play
+    stim_stop_btn.on_click = on_stim_stop
 
     # 任务开始：左右 ROI 极简任务（10 秒）
     def on_task_start(e: ft.ControlEvent) -> None:
@@ -737,7 +857,15 @@ def main(page: ft.Page) -> None:
             switches_row,
             selectors_row,
             actions_row,
-            ft.Row(controls=[preview_card], alignment=ft.MainAxisAlignment.CENTER, expand=1),
+            ft.Row(
+                controls=[
+                    ft.Column(controls=[preview_card], expand=1),
+                    ft.Column(controls=[stim_video] if stim_video is not None else [], expand=1),
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                expand=1,
+            ),
+            stim_row,
             diag_tile,
         ],
     )
@@ -778,3 +906,11 @@ if __name__ == "__main__":
     # 本地运行（方案一）：uv run flet run src/app
     # 本地运行（方案二）：uv run -m app.main
     cli()
+    stim_row = ft.Row(
+        controls=[stim_dd, stim_play_btn, stim_stop_btn, stim_status_text],
+        alignment=ft.MainAxisAlignment.CENTER,
+        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+        spacing=12,
+        wrap=True,
+        run_spacing=8,
+    )

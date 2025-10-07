@@ -14,6 +14,7 @@
 - Flet UI 原型（`app/main.py`）
   - 基础 UI（设备/分辨率选择，开始/停止），帧展示（JPEG base64）。
   - 采集与推理线程、停止事件、队列限流（`maxsize=1`），避免积压。
+  - 刺激播放与时间轴（最小骨架）：`assets/stimuli/<id>.mp4` + `<id>.json`；播放时按单调时钟触发片段/对话/呼名事件并写入会话日志。
 
 ## 尚未实现/规划中
 
@@ -22,6 +23,25 @@
 - 更细致的异常处理与 UI 提示（摄像头权限/占用/失败回退）。
 - 自动化测试覆盖（合成帧的单测、UI 逻辑的最小回归）。
 - Release Drafter/语义化版本流（可选），持续自动化发布流程。
+
+## 刺激与时间轴（使用说明）
+
+1. 放置视频与时间轴：
+   - 视频：`assets/stimuli/<id>.mp4`
+   - 时间轴：`assets/stimuli/<id>.json`（可参考示例 `assets/stimuli/sample.json`）
+2. 运行应用，选择刺激 ID，点击“播放刺激”。
+3. 事件会记录到会话日志（`sessions/session_*.json`）。
+
+时间轴 JSON 字段约定：
+```
+{
+  "id": "bubbles",
+  "segments": [ { "name": "salient_bubbles", "start_ms": 32500, "end_ms": 34500, "tags": ["salient", "social"] } ],
+  "dialogue_turns": [ { "speaker": "left", "start_ms": 12000, "end_ms": 14000 } ],
+  "name_calls": [ { "t_ms": 52000, "label": "name_call_1" } ],
+  "sides": [ { "t_ms": 0, "person_side": "left", "toy_side": "right" } ]
+}
+```
 
 ## 目录结构（简要）
 
