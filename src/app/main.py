@@ -149,7 +149,7 @@ def main(page: ft.Page) -> None:
     mirror_switch = ft.Switch(label="镜像预览", value=True)
     track_switch = ft.Switch(label="人脸/眼部叠加", value=True)
     strict_switch = ft.Switch(label="严格模式", value=True)
-    gaze_dot_switch = ft.Switch(label="显示凝视点", value=False)
+    gaze_dot_switch = ft.Switch(label="显示凝视点", value=True)
     toggles_row = ft.Row(
         controls=[mirror_switch, track_switch, strict_switch, gaze_dot_switch],
         alignment=ft.MainAxisAlignment.START,
@@ -457,6 +457,12 @@ def main(page: ft.Page) -> None:
                 tracker.close()
     # 校准事件处理
     def on_cal_start(e: ft.ControlEvent) -> None:
+        # 在严格模式下，若未启动采集则先启动摄像头，进入校准预览
+        if not state.capturing:
+            try:
+                on_start_click(e)
+            except Exception:
+                pass
         # 定义 5 点校准目标：中心 + 四角
         state.calibrator = AffineCalibrator()
         state.cal_targets = [(0.5, 0.5), (0.15, 0.15), (0.85, 0.15), (0.85, 0.85), (0.15, 0.85)]
@@ -464,6 +470,12 @@ def main(page: ft.Page) -> None:
         state.cal_collect_frames_remaining = 0
         state.cal_collect_buffer = None
         state.cal_model = None
+        # 校准期间开启追踪，但禁用开关（用户不可切换）
+        try:
+            track_switch.value = True
+            track_switch.disabled = True
+        except Exception:
+            pass
         try:
             cal_sample_btn.disabled = False
             cal_fit_btn.disabled = True
@@ -508,14 +520,41 @@ def main(page: ft.Page) -> None:
         try:
             cal_sample_btn.disabled = True
             cal_fit_btn.disabled = False
-            # 严格模式：完成校准后允许启用追踪
+            # 严格模式：完成校准后允许“开始”按钮；并关闭追踪开关等待用户点击开始
             if strict_switch.value:
+                start_btn.disabled = False
+                track_switch.value = False
                 track_switch.disabled = False
         except Exception:
             pass
         page.update()
 
-    start_btn.on_click = on_start_click
+    # 严格模式下的开始按钮逻辑：需已完成校准
+    def on_start_click_strict(e: ft.ControlEvent) -> None:
+        if strict_switch.value:
+            if state.cal_model is None:
+                status_text.value = "严格模式：请先点击校准并完成后再开始"
+                page.update()
+                return
+            # 若采集未启动（异常情况），启动之
+            if not state.capturing:
+                try:
+                    on_start_click(e)
+                except Exception:
+                    pass
+            # 开启追踪并更新按钮状态
+            try:
+                track_switch.value = True
+                start_btn.disabled = True
+                stop_btn.disabled = False
+            except Exception:
+                pass
+            page.update()
+            return
+        # 非严格模式：沿用原始开始逻辑
+        on_start_click(e)
+
+    start_btn.on_click = on_start_click_strict
     stop_btn.on_click = on_stop_click
     cal_start_btn.on_click = on_cal_start
     cal_sample_btn.on_click = on_cal_sample
@@ -570,6 +609,13 @@ def main(page: ft.Page) -> None:
     )
 
     page.add(content_column)
+    # 严格模式：初始禁用开始按钮
+    try:
+        if strict_switch.value:
+            start_btn.disabled = True
+            page.update()
+    except Exception:
+        pass
 
     def on_close(e: ft.ControlEvent) -> None:
         if state._stop_event:
