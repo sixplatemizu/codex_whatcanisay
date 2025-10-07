@@ -859,6 +859,16 @@ def main(page: ft.Page) -> None:
         maintain_state=True,
     )
 
+    # 刺激控制行（需在 content_column 之前定义）
+    stim_row = ft.Row(
+        controls=[stim_dd, stim_play_btn, stim_stop_btn, stim_status_text],
+        alignment=ft.MainAxisAlignment.CENTER,
+        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+        spacing=12,
+        wrap=True,
+        run_spacing=8,
+    )
+
     content_column = ft.Column(
         expand=1,
         spacing=8,
@@ -916,11 +926,3 @@ if __name__ == "__main__":
     # 本地运行（方案一）：uv run flet run src/app
     # 本地运行（方案二）：uv run -m app.main
     cli()
-    stim_row = ft.Row(
-        controls=[stim_dd, stim_play_btn, stim_stop_btn, stim_status_text],
-        alignment=ft.MainAxisAlignment.CENTER,
-        vertical_alignment=ft.CrossAxisAlignment.CENTER,
-        spacing=12,
-        wrap=True,
-        run_spacing=8,
-    )
