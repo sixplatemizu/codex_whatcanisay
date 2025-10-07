@@ -14,7 +14,8 @@
 - Flet UI 原型（`app/main.py`）
   - 基础 UI（设备/分辨率选择，开始/停止），帧展示（JPEG base64）。
   - 采集与推理线程、停止事件、队列限流（`maxsize=1`），避免积压。
-  - 刺激播放与时间轴（最小骨架）：`assets/stimuli/<id>.mp4` + `<id>.json`；播放时按单调时钟触发片段/对话/呼名事件并写入会话日志。
+ - 刺激播放与时间轴（最小骨架）：`assets/stimuli/<id>.mp4` + `<id>.json`；播放时按单调时钟触发片段/对话/呼名事件并写入会话日志。
+  - 推荐安装 `flet-video` 扩展以避免 Flet 内置 `Video` 的弃用告警：`uv add flet-video`（已内置兼容：若未安装则回退使用内置 `ft.Video`）。
 
 ## 尚未实现/规划中
 

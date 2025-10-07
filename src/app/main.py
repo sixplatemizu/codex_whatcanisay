@@ -47,6 +47,12 @@ except Exception:
     StimulusTimeline = None  # type: ignore
     load_timeline_from_json = None  # type: ignore
 
+# 优先使用独立扩展包 flet-video，避免 Flet 内置 Video 的弃用告警
+try:
+    from flet_video import Video as ExtVideo  # type: ignore
+except Exception:  # pragma: no cover - 可选依赖
+    ExtVideo = None  # type: ignore
+
 
 @dataclass
 class AppState:
@@ -220,7 +226,11 @@ def main(page: ft.Page) -> None:
     stim_stop_btn = ft.OutlinedButton("停止刺激", icon="stop_circle", disabled=True)
     stim_status_text = ft.Text("刺激：未加载", size=14, color="#616161")
     try:
-        stim_video = ft.Video(src=None, autoplay=True, playlist=None, expand=1)  # 尝试最小参数
+        if ExtVideo is not None:
+            stim_video = ExtVideo(src=None, autoplay=True, expand=1)  # type: ignore
+        else:
+            # 回退到 Flet 内置（将产生弃用提示，但可用）
+            stim_video = ft.Video(src=None, autoplay=True, playlist=None, expand=1)
     except Exception:
         stim_video = None  # type: ignore
 
