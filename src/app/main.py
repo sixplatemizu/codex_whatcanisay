@@ -442,7 +442,7 @@ def main(page: ft.Page) -> None:
                     img.src_base64 = frame_to_jpeg_base64(frame, max_width=960, quality=jpg_q)
                     last_encode_ms = (time.perf_counter() - t_enc0) * 1000.0
                     # 将耗时信息写入诊断文本（统一放入诊断信息中）
-                    if state.last_gaze_uv is not None and ('gaze_dot_switch' in locals() and gaze_dot_switch.value):
+                    if state.last_gaze_uv is not None and gaze_dot_switch.value:
                         gu, gv = state.last_gaze_uv
                         metrics_text.value = (
                             f"FPS: {state.fps:.1f} | I {last_infer_ms:.1f}ms | E {last_encode_ms:.1f}ms | "
