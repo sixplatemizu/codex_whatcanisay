@@ -361,7 +361,9 @@ def main(page: ft.Page) -> None:
                             tr = tracker.process(frame)
                             last_infer_ms = (time.perf_counter() - t_infer0) * 1000.0
                             if tr is not None:
-                                FaceTracker.draw_overlays(frame, tr)
+                                if track_switch.value:
+                                    FaceTracker.draw_overlays(frame, tr)
+                                h0, w0 = frame.shape[:2]
                                 # 提取虹膜中心并记录
                                 try:
                                     iris_px = average_iris_center(tr.iris_centers)
@@ -370,7 +372,7 @@ def main(page: ft.Page) -> None:
                                 state.last_iris_px = iris_px
                                 # 校准目标指示与采样
                                 
-                                    h0, w0 = frame.shape[:2]
+                                    # moved: h0, w0 = frame.shape[:2]
                                 if state.cal_targets and state.cal_idx < len(state.cal_targets):
                                     tu, tv = state.cal_targets[state.cal_idx]
                                     cx, cy = int(tu * w0), int(tv * h0)
