@@ -151,7 +151,7 @@ def main(page: ft.Page) -> None:
     strict_switch = ft.Switch(label="严格模式", value=True)
     gaze_dot_switch = ft.Switch(label="显示凝视点", value=True)
     toggles_row = ft.Row(
-        controls=[mirror_switch, track_switch, strict_switch, gaze_dot_switch],
+        controls=[strict_switch, track_switch, mirror_switch, gaze_dot_switch],
         alignment=ft.MainAxisAlignment.START,
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
         spacing=8,
@@ -554,11 +554,59 @@ def main(page: ft.Page) -> None:
         # 非严格模式：沿用原始开始逻辑
         on_start_click(e)
 
+    # 切换严格模式时，自动停止并重置活动
+    def on_strict_change(e: ft.ControlEvent) -> None:
+        # 停止采集/推理
+        try:
+            if state._stop_event:
+                state._stop_event.set()
+            state.capturing = False
+            cam.close()
+            for th_name in ("capture_thread", "infer_thread"):
+                th = getattr(state, th_name)
+                if th is not None:
+                    try:
+                        th.join(timeout=1.0)
+                    except Exception:
+                        pass
+                    setattr(state, th_name, None)
+        except Exception:
+            pass
+        state.frame_queue = None
+        state._stop_event = None
+        # 重置校准与缓存
+        state.calibrator = None
+        state.cal_targets = None
+        state.cal_idx = 0
+        state.cal_collect_frames_remaining = 0
+        state.cal_collect_buffer = None
+        state.cal_model = None
+        state.last_iris_px = None
+        state.last_gaze_uv = None
+        state.gaze_series = None
+        # 重置按钮与提示
+        try:
+            cal_sample_btn.disabled = True
+            cal_fit_btn.disabled = True
+            if strict_switch.value:
+                start_btn.disabled = True
+                track_switch.value = False
+                track_switch.disabled = True
+                status_text.value = "严格模式：请先点击校准并完成后再开始"
+            else:
+                start_btn.disabled = False
+                track_switch.disabled = False
+                status_text.value = "就绪"
+        except Exception:
+            pass
+        page.update()
+
     start_btn.on_click = on_start_click_strict
     stop_btn.on_click = on_stop_click
     cal_start_btn.on_click = on_cal_start
     cal_sample_btn.on_click = on_cal_sample
     cal_fit_btn.on_click = on_cal_fit
+    strict_switch.on_change = on_strict_change
 
     # 布局
     appbar = ft.AppBar(title=ft.Text("眼动追踪原型"), center_title=False, bgcolor="#ECEFF1")
@@ -577,7 +625,7 @@ def main(page: ft.Page) -> None:
             cal_sample_btn,
             cal_fit_btn,
         ],
-        alignment=ft.MainAxisAlignment.START,
+        alignment=ft.MainAxisAlignment.CENTER,
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
         spacing=12,
         wrap=True,
@@ -601,9 +649,10 @@ def main(page: ft.Page) -> None:
     content_column = ft.Column(
         expand=1,
         spacing=8,
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         controls=[
             controls_row,
-            ft.Container(expand=1, content=preview_card),
+            ft.Container(expand=1, alignment=ft.alignment.center, content=preview_card),
             diag_tile,
         ],
     )
