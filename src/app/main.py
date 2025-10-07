@@ -416,11 +416,12 @@ def main(page: ft.Page) -> None:
                             state.last_gaze_uv = (u, v)
                             # 可视化当前 gaze 点
                                 if 'gaze_dot_switch' in locals() and gaze_dot_switch.value:
-                                    try:
-                                        gx, gy = int(u * w0), int(v * h0)
-                                        cv2.circle(frame, (gx, gy), 5, (0, 255, 255), thickness=-1, lineType=cv2.LINE_AA)
-                                    except Exception:
-                                        pass
+                            try:
+                                if gaze_dot_switch.value:
+                                    gx, gy = int(u * w0), int(v * h0)
+                                    cv2.circle(frame, (gx, gy), 5, (0, 255, 255), thickness=-1, lineType=cv2.LINE_AA)
+                            except Exception:
+                                pass
                         else:
                             state.gaze_series.append((t_ms, 0.0, 0.0, False))
                             state.last_gaze_uv = None
