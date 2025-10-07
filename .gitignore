@@ -1,6 +1,3 @@
-# Papers
-Papers
-
 # Python
 __pycache__/
 *.py[cod]
@@ -45,3 +42,5 @@ sessions/**/*.json
 
 # Agent 配置（本地协作用，不参与版本控制）
 AGENTS.md
+papers
+bugs

@@ -101,4 +101,3 @@ def average_iris_center(iris_centers: Iterable[Point]) -> Optional[Point]:
     xs = [p[0] for p in pts]
     ys = [p[1] for p in pts]
     return float(sum(xs) / len(xs)), float(sum(ys) / len(ys))
-

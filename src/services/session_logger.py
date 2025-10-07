@@ -10,7 +10,7 @@ import json
 import os
 import time
 from dataclasses import asdict, is_dataclass
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class SessionLogger:
@@ -19,7 +19,7 @@ class SessionLogger:
         os.makedirs(self.out_dir, exist_ok=True)
         ts = time.strftime("%Y%m%d_%H%M%S")
         self.path = os.path.join(self.out_dir, f"session_{ts}.json")
-        self.data: Dict[str, Any] = {
+        self.data: dict[str, Any] = {
             "created_at": ts,
             "device": {},
             "events": [],
@@ -48,4 +48,3 @@ class SessionLogger:
 
         with open(self.path, "w", encoding="utf-8") as f:
             json.dump(self.data, f, ensure_ascii=False, indent=2, default=default)
-
