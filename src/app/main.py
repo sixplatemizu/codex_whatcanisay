@@ -150,11 +150,11 @@ def main(page: ft.Page) -> None:
     track_switch = ft.Switch(label="人脸/眼部叠加", value=True)
     strict_switch = ft.Switch(label="严格模式", value=True)
     gaze_dot_switch = ft.Switch(label="显示凝视点", value=True)
-    toggles_row = ft.Row(
+    switches_row = ft.Row(
         controls=[strict_switch, track_switch, mirror_switch, gaze_dot_switch],
-        alignment=ft.MainAxisAlignment.START,
+        alignment=ft.MainAxisAlignment.CENTER,
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
-        spacing=8,
+        spacing=12,
     )
 
     img = ft.Image(
@@ -399,6 +399,25 @@ def main(page: ft.Page) -> None:
                             track_switch.value = False
                             status_text.value = f"推理错误：{ex}（已关闭叠加）"
                             page.update()
+                
+                # 若未开启叠加但需要凝视点/校准采样，补充一次追踪计算以更新 last_iris_px
+                try:
+                    if (not track_switch.value) and (state.last_iris_px is None):
+                        if tracker is None:
+                            try:
+                                tracker = FaceTracker(
+                                    infer_width=state.infer_width,
+                                    smooth_iris=True,
+                                    smooth_alpha=0.6,
+                                )
+                            except Exception:
+                                tracker = None
+                        if tracker is not None:
+                            _tr = tracker.process(frame)
+                            if _tr is not None:
+                                state.last_iris_px = average_iris_center(_tr.iris_centers)
+                except Exception:
+                    pass
 
                 now = time.perf_counter()
                 # 收集 gaze（归一化/经校准）
@@ -618,7 +637,6 @@ def main(page: ft.Page) -> None:
             res_dd,
             fourcc_dd,
             inferw_dd,
-            toggles_row,
             start_btn,
             stop_btn,
             cal_start_btn,
@@ -651,8 +669,9 @@ def main(page: ft.Page) -> None:
         spacing=8,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         controls=[
+            switches_row,
             controls_row,
-            ft.Container(expand=1, alignment=ft.alignment.center, content=preview_card),
+            ft.Row(controls=[preview_card], alignment=ft.MainAxisAlignment.CENTER, expand=1),
             diag_tile,
         ],
     )
