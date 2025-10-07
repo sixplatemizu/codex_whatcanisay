@@ -415,7 +415,7 @@ def main(page: ft.Page) -> None:
                             state.gaze_series.append((t_ms, u, v, True))
                             state.last_gaze_uv = (u, v)
                             # 可视化当前 gaze 点
-                                if 'gaze_dot_switch' in locals() and gaze_dot_switch.value:
+                                
                             try:
                                 if gaze_dot_switch.value:
                                     gx, gy = int(u * w0), int(v * h0)
