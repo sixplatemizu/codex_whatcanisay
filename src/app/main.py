@@ -148,8 +148,10 @@ def main(page: ft.Page) -> None:
     )
     mirror_switch = ft.Switch(label="镜像预览", value=True)
     track_switch = ft.Switch(label="人脸/眼部叠加", value=True)
+    strict_switch = ft.Switch(label="严格模式", value=True)
+    gaze_dot_switch = ft.Switch(label="显示凝视点", value=False)
     toggles_row = ft.Row(
-        controls=[mirror_switch, track_switch],
+        controls=[mirror_switch, track_switch, strict_switch, gaze_dot_switch],
         alignment=ft.MainAxisAlignment.START,
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
         spacing=8,
@@ -228,6 +230,15 @@ def main(page: ft.Page) -> None:
                 pass
         status_text.value = f"采集中（设备 {device_idx}，请求 {res[0]}x{res[1]}，实际/驱动 FPS 检测中…）"
         start_btn.disabled = True
+        # 严格模式：未完成校准前禁用追踪开关
+        try:
+            if strict_switch.value:
+                track_switch.disabled = True
+                status_text.value = "严格模式：请先完成校准再启用追踪/任务"
+            else:
+                track_switch.disabled = False
+        except Exception:
+            pass
         stop_btn.disabled = False
         page.update()
         # 启动采集与推理线程
@@ -323,15 +334,6 @@ def main(page: ft.Page) -> None:
                 # 可选镜像（自拍预览更符合直觉）
                 if mirror_switch.value:
                     frame = cv2.flip(frame, 1)
-                # 目标点指示（与是否检测到人脸无关）
-                try:
-                    if state.cal_targets and state.cal_idx < len(state.cal_targets):
-                        h0, w0 = frame.shape[:2]
-                        tu, tv = state.cal_targets[state.cal_idx]
-                        cx, cy = int(tu * w0), int(tv * h0)
-                        cv2.circle(frame, (cx, cy), 8, (0, 170, 255), thickness=2, lineType=cv2.LINE_AA)
-                except Exception:
-                    pass
                 # 人脸/眼部叠加
                 if track_switch.value:
                     if tracker is None:
@@ -413,11 +415,12 @@ def main(page: ft.Page) -> None:
                             state.gaze_series.append((t_ms, u, v, True))
                             state.last_gaze_uv = (u, v)
                             # 可视化当前 gaze 点
-                            try:
-                                gx, gy = int(u * w0), int(v * h0)
-                                cv2.circle(frame, (gx, gy), 5, (0, 255, 255), thickness=-1, lineType=cv2.LINE_AA)
-                            except Exception:
-                                pass
+                                if 'gaze_dot_switch' in locals() and gaze_dot_switch.value:
+                                    try:
+                                        gx, gy = int(u * w0), int(v * h0)
+                                        cv2.circle(frame, (gx, gy), 5, (0, 255, 255), thickness=-1, lineType=cv2.LINE_AA)
+                                    except Exception:
+                                        pass
                         else:
                             state.gaze_series.append((t_ms, 0.0, 0.0, False))
                             state.last_gaze_uv = None
@@ -438,7 +441,7 @@ def main(page: ft.Page) -> None:
                     img.src_base64 = frame_to_jpeg_base64(frame, max_width=960, quality=jpg_q)
                     last_encode_ms = (time.perf_counter() - t_enc0) * 1000.0
                     # 将耗时信息写入诊断文本（统一放入诊断信息中）
-                    if state.last_gaze_uv is not None:
+                    if state.last_gaze_uv is not None and ('gaze_dot_switch' in locals() and gaze_dot_switch.value):
                         gu, gv = state.last_gaze_uv
                         metrics_text.value = (
                             f"FPS: {state.fps:.1f} | I {last_infer_ms:.1f}ms | E {last_encode_ms:.1f}ms | "
@@ -504,6 +507,9 @@ def main(page: ft.Page) -> None:
         try:
             cal_sample_btn.disabled = True
             cal_fit_btn.disabled = False
+            # 严格模式：完成校准后允许启用追踪
+            if strict_switch.value:
+                track_switch.disabled = False
         except Exception:
             pass
         page.update()
