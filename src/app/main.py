@@ -66,6 +66,7 @@ class AppState:
     last_iris_px: Optional[tuple[int, int]] = None
     gaze_series: Optional[list[tuple[float, float, float, bool]]] = None  # (t_ms,u,v,valid)
     session_logger: Optional[SessionLogger] = None
+    last_gaze_uv: Optional[tuple[float, float]] = None
 
 
 def frame_to_jpeg_base64(frame: np.ndarray, max_width: int = 960, quality: int = 80) -> str:
@@ -322,6 +323,15 @@ def main(page: ft.Page) -> None:
                 # 可选镜像（自拍预览更符合直觉）
                 if mirror_switch.value:
                     frame = cv2.flip(frame, 1)
+                # 目标点指示（与是否检测到人脸无关）
+                try:
+                    if state.cal_targets and state.cal_idx < len(state.cal_targets):
+                        h0, w0 = frame.shape[:2]
+                        tu, tv = state.cal_targets[state.cal_idx]
+                        cx, cy = int(tu * w0), int(tv * h0)
+                        cv2.circle(frame, (cx, cy), 8, (0, 170, 255), thickness=2, lineType=cv2.LINE_AA)
+                except Exception:
+                    pass
                 # 人脸/眼部叠加
                 if track_switch.value:
                     if tracker is None:
@@ -401,8 +411,16 @@ def main(page: ft.Page) -> None:
                                 u = float(state.last_iris_px[0]) / float(w0)
                                 v = float(state.last_iris_px[1]) / float(h0)
                             state.gaze_series.append((t_ms, u, v, True))
+                            state.last_gaze_uv = (u, v)
+                            # 可视化当前 gaze 点
+                            try:
+                                gx, gy = int(u * w0), int(v * h0)
+                                cv2.circle(frame, (gx, gy), 5, (0, 255, 255), thickness=-1, lineType=cv2.LINE_AA)
+                            except Exception:
+                                pass
                         else:
                             state.gaze_series.append((t_ms, 0.0, 0.0, False))
+                            state.last_gaze_uv = None
                         if len(state.gaze_series) > 5000:
                             state.gaze_series = state.gaze_series[-4000:]
                 except Exception:
@@ -420,7 +438,14 @@ def main(page: ft.Page) -> None:
                     img.src_base64 = frame_to_jpeg_base64(frame, max_width=960, quality=jpg_q)
                     last_encode_ms = (time.perf_counter() - t_enc0) * 1000.0
                     # 将耗时信息写入诊断文本（统一放入诊断信息中）
-                    metrics_text.value = f"FPS: {state.fps:.1f} | I {last_infer_ms:.1f}ms | E {last_encode_ms:.1f}ms"
+                    if state.last_gaze_uv is not None:
+                        gu, gv = state.last_gaze_uv
+                        metrics_text.value = (
+                            f"FPS: {state.fps:.1f} | I {last_infer_ms:.1f}ms | E {last_encode_ms:.1f}ms | "
+                            f"G {gu:.2f},{gv:.2f}"
+                        )
+                    else:
+                        metrics_text.value = f"FPS: {state.fps:.1f} | I {last_infer_ms:.1f}ms | E {last_encode_ms:.1f}ms"
                     page.update()
                     last_ui = now
         finally:
