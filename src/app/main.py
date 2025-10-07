@@ -322,10 +322,8 @@ def main(page: ft.Page) -> None:
 
     def infer_loop() -> None:
         nonlocal state
-        # 跟踪器（惰性创建）
         tracker: Optional[FaceTracker] = None
         last_ui = 0.0
-        # 性能统计（毫秒）
         last_infer_ms: float = 0.0
         last_encode_ms: float = 0.0
         q = state.frame_queue
@@ -337,106 +335,66 @@ def main(page: ft.Page) -> None:
                     frame = q.get(timeout=0.05)
                 except Exception:
                     continue
-                # 可选镜像（自拍预览更符合直觉）
                 if mirror_switch.value:
                     frame = cv2.flip(frame, 1)
-                # 人脸/眼部叠加
-                if track_switch.value:
-                    if tracker is None:
-                        try:
-                            tracker = FaceTracker(
-                                infer_width=state.infer_width,
-                                smooth_iris=True,
-                                smooth_alpha=0.6,
-                            )
-                        except Exception as ex:
-                            # 跟踪器创建失败（依赖缺失等），自动关闭叠加并继续渲染原始预览
-                            tracker = None
-                            track_switch.value = False
-                            status_text.value = f"跟踪不可用：{ex}（已自动关闭叠加）"
-                            page.update()
-                    if tracker is not None:
-                        try:
-                            t_infer0 = time.perf_counter()
-                            tr = tracker.process(frame)
-                            last_infer_ms = (time.perf_counter() - t_infer0) * 1000.0
-                            if tr is not None:
-                                if track_switch.value:
-                                    FaceTracker.draw_overlays(frame, tr)
-                                h0, w0 = frame.shape[:2]
-                                # 提取虹膜中心并记录
-                                try:
-                                    iris_px = average_iris_center(tr.iris_centers)
-                                except Exception:
-                                    iris_px = None
-                                state.last_iris_px = iris_px
-                                # 校准目标指示与采样
-                                
-                                    # moved: h0, w0 = frame.shape[:2]
-                                if state.cal_targets and state.cal_idx < len(state.cal_targets):
-                                    tu, tv = state.cal_targets[state.cal_idx]
-                                    cx, cy = int(tu * w0), int(tv * h0)
-                                    cv2.circle(frame, (cx, cy), 8, (0, 170, 255), thickness=2, lineType=cv2.LINE_AA)
-                                # 任务 ROI 可视化
-                                if state.task_running and state.rois:
-                                    for r in state.rois:
-                                        x0 = int(r.x0 * w0)
-                                        y0 = int(r.y0 * h0)
-                                        x1 = int(r.x1 * w0)
-                                        y1 = int(r.y1 * h0)
-                                        cv2.rectangle(frame, (x0, y0), (x1, y1), (100, 200, 255), thickness=2, lineType=cv2.LINE_AA)
-                                    if state.cal_collect_frames_remaining and state.cal_collect_frames_remaining > 0:
-                                        if iris_px is not None:
-                                            if state.cal_collect_buffer is None:
-                                                state.cal_collect_buffer = []
-                                            state.cal_collect_buffer.append(iris_px)
-                                            state.cal_collect_frames_remaining -= 1
-                                            if state.cal_collect_frames_remaining <= 0 and state.cal_collect_buffer:
-                                                xs = [p[0] for p in state.cal_collect_buffer]
-                                                ys = [p[1] for p in state.cal_collect_buffer]
-                                                avg_src = (float(sum(xs) / len(xs)), float(sum(ys) / len(ys)))
-                                                if state.cal_targets and state.cal_idx < len(state.cal_targets) and state.calibrator is not None:
-                                                    dst_uv = state.cal_targets[state.cal_idx]
-                                                    state.calibrator.add_sample(avg_src, dst_uv)
-                                                    state.cal_idx += 1
-                                                    status_text.value = f"已采样 {state.calibrator.num_samples} 个点"
-                                                    # 允许继续采样或拟合
-                                                    try:
-                                                        cal_sample_btn.disabled = False if state.cal_idx < len(state.cal_targets) else True
-                                                        cal_fit_btn.disabled = False if state.calibrator.num_samples >= 3 else True
-
-
-                                                    page.update()
-                                                state.cal_collect_buffer = None
-                                except Exception:
-                                    pass
-                        except Exception as ex:
-                            # 推理失败时关闭叠加，避免线程退出导致黑屏
-                            track_switch.value = False
-                            status_text.value = f"推理错误：{ex}（已关闭叠加）"
-                            page.update()
-                
-                # 若未开启叠加但需要凝视点/校准采样/任务 ROI，可补充一次追踪计算以更新 last_iris_px
-                try:
-                    if (not track_switch.value) and (state.last_iris_px is None or state.task_running):
-                        if tracker is None:
+                if tracker is None:
+                    try:
+                        tracker = FaceTracker(infer_width=state.infer_width, smooth_iris=True, smooth_alpha=0.6)
+                    except Exception as ex:
+                        tracker = None
+                        track_switch.value = False
+                        status_text.value = f"追踪不可用：{ex}（已自动关闭叠加）"
+                        page.update()
+                if tracker is not None:
+                    try:
+                        t0 = time.perf_counter()
+                        tr = tracker.process(frame)
+                        last_infer_ms = (time.perf_counter() - t0) * 1000.0
+                        if tr is not None:
+                            if track_switch.value:
+                                FaceTracker.draw_overlays(frame, tr)
                             try:
-                                tracker = FaceTracker(
-                                    infer_width=state.infer_width,
-                                    smooth_iris=True,
-                                    smooth_alpha=0.6,
-                                )
+                                iris_px = average_iris_center(tr.iris_centers)
                             except Exception:
-                                tracker = None
-                        if tracker is not None:
-                            _tr = tracker.process(frame)
-                            if _tr is not None:
-                                state.last_iris_px = average_iris_center(_tr.iris_centers)
-                except Exception:
-                    pass
+                                iris_px = None
+                            state.last_iris_px = iris_px
+                            h0, w0 = frame.shape[:2]
+                            if state.cal_targets and state.cal_idx < len(state.cal_targets):
+                                tu, tv = state.cal_targets[state.cal_idx]
+                                cx, cy = int(tu * w0), int(tv * h0)
+                                cv2.circle(frame, (cx, cy), 8, (0, 170, 255), thickness=2, lineType=cv2.LINE_AA)
+                            if state.task_running and state.rois:
+                                for r in state.rois or []:
+                                    x0 = int(r.x0 * w0); y0 = int(r.y0 * h0)
+                                    x1 = int(r.x1 * w0); y1 = int(r.y1 * h0)
+                                    cv2.rectangle(frame, (x0, y0), (x1, y1), (100, 200, 255), 2, lineType=cv2.LINE_AA)
+                            if state.cal_collect_frames_remaining and state.cal_collect_frames_remaining > 0 and iris_px is not None:
+                                if state.cal_collect_buffer is None:
+                                    state.cal_collect_buffer = []
+                                state.cal_collect_buffer.append(iris_px)
+                                state.cal_collect_frames_remaining -= 1
+                                if state.cal_collect_frames_remaining <= 0 and state.cal_collect_buffer:
+                                    xs = [p[0] for p in state.cal_collect_buffer]
+                                    ys = [p[1] for p in state.cal_collect_buffer]
+                                    avg_src = (float(sum(xs) / len(xs)), float(sum(ys) / len(ys)))
+                                    if state.cal_targets and state.cal_idx < len(state.cal_targets) and state.calibrator is not None:
+                                        dst_uv = state.cal_targets[state.cal_idx]
+                                        state.calibrator.add_sample(avg_src, dst_uv)
+                                        state.cal_idx += 1
+                                        status_text.value = f"已采样 {state.calibrator.num_samples} 个点"
+                                        try:
+                                            cal_sample_btn.disabled = False if state.cal_idx < len(state.cal_targets) else True
+                                            cal_fit_btn.disabled = False if state.calibrator.num_samples >= 3 else True
+                                        except Exception:
+                                            pass
+                                        page.update()
+                    except Exception as ex:
+                        track_switch.value = False
+                        status_text.value = f"推理错误：{ex}（已关闭叠加）"
+                        page.update()
 
+                # 收集 gaze 与任务
                 now = time.perf_counter()
-                # 收集 gaze（归一化/经校准）并在任务结束时计算指标
                 try:
                     if state.gaze_series is not None:
                         t_ms = now * 1000.0
@@ -449,23 +407,19 @@ def main(page: ft.Page) -> None:
                                 v = float(state.last_iris_px[1]) / float(h0)
                             state.gaze_series.append((t_ms, u, v, True))
                             state.last_gaze_uv = (u, v)
-                            # 可视化当前 gaze 点
-                                
-                            try:
-                                if gaze_dot_switch.value:
+                            if gaze_dot_switch.value:
+                                try:
                                     gx, gy = int(u * w0), int(v * h0)
                                     cv2.circle(frame, (gx, gy), 5, (0, 255, 255), thickness=-1, lineType=cv2.LINE_AA)
-                            except Exception:
-                                pass
+                                except Exception:
+                                    pass
                         else:
                             state.gaze_series.append((t_ms, 0.0, 0.0, False))
                             state.last_gaze_uv = None
                         if len(state.gaze_series) > 5000:
                             state.gaze_series = state.gaze_series[-4000:]
-                        # 任务结束判定与指标计算
                         if state.task_running and (t_ms >= state.task_end_ms):
                             state.task_running = False
-                            # 计算 ROI 指标
                             try:
                                 if state.rois:
                                     result = compute_metrics_for_rois(state.gaze_series, state.rois, min_fix_ms=120.0)
@@ -479,34 +433,25 @@ def main(page: ft.Page) -> None:
                                         state.session_logger.save()
                             except Exception:
                                 pass
+                    # UI 更新
+                    if now - last_ui >= 1.0 / 30.0:
+                        jpg_q = 85 if state.fps < 20.0 else (70 if state.fps > 40.0 else 80)
+                        t_enc0 = time.perf_counter()
+                        img.src_base64 = frame_to_jpeg_base64(frame, max_width=960, quality=jpg_q)
+                        last_encode_ms = (time.perf_counter() - t_enc0) * 1000.0
+                        if state.last_gaze_uv is not None and gaze_dot_switch.value:
+                            gu, gv = state.last_gaze_uv
+                            metrics_text.value = f"FPS: {state.fps:.1f} | I {last_infer_ms:.1f}ms | E {last_encode_ms:.1f}ms | G {gu:.2f},{gv:.2f}"
+                        else:
+                            metrics_text.value = f"FPS: {state.fps:.1f} | I {last_infer_ms:.1f}ms | E {last_encode_ms:.1f}ms"
+                        page.update()
+                        last_ui = now
                 except Exception:
                     pass
-                # 编码与 UI 更新节流（~30 FPS）
-                if now - last_ui >= 1.0 / 30.0:
-                    # 动态调整 JPEG 质量以平衡清晰度与 CPU
-                    if state.fps < 20.0:
-                        jpg_q = 85
-                    elif state.fps > 40.0:
-                        jpg_q = 70
-                    else:
-                        jpg_q = 80
-                    t_enc0 = time.perf_counter()
-                    img.src_base64 = frame_to_jpeg_base64(frame, max_width=960, quality=jpg_q)
-                    last_encode_ms = (time.perf_counter() - t_enc0) * 1000.0
-                    # 将耗时信息写入诊断文本（统一放入诊断信息中）
-                    if state.last_gaze_uv is not None and gaze_dot_switch.value:
-                        gu, gv = state.last_gaze_uv
-                        metrics_text.value = (
-                            f"FPS: {state.fps:.1f} | I {last_infer_ms:.1f}ms | E {last_encode_ms:.1f}ms | "
-                            f"G {gu:.2f},{gv:.2f}"
-                        )
-                    else:
-                        metrics_text.value = f"FPS: {state.fps:.1f} | I {last_infer_ms:.1f}ms | E {last_encode_ms:.1f}ms"
-                    page.update()
-                    last_ui = now
         finally:
             if tracker is not None:
                 tracker.close()
+
     # 校准事件处理
     def on_cal_start(e: ft.ControlEvent) -> None:
         # 在严格模式下，若未启动采集则先启动摄像头，进入校准预览
