@@ -14,7 +14,7 @@
 - 工具选择：按意图选择最匹配服务；离线优先；避免无意义并发。
 - 单轮单工具：每轮对话最多 1 种外部服务；确需多种时串行并说明理由。
 - 最小必要：限制 tokens/结果数/时间窗与代码范围，避免噪声。
-- 可追溯性：在答复末尾追加“工具调用简报”（工具、输入摘要、时间、来源/重试）。
+<!-- - 可追溯性：在答复末尾追加“工具调用简报”（工具、输入摘要、时间、来源/重试）。 -->
 - 失败与降级：外呼失败给出降级说明与保守答案；遵守 robots/ToS 与隐私。
 
 ### 服务清单
@@ -63,8 +63,13 @@
 - 管线：采集 → 检测/特征点 →（规划中）校准映射 → UI 交互。
 - 分层：`core` 纯算法可单测；`app` 负责事件与展示；`services` 提供抽象。
 
-## MCP 与工具使用硬性要求（本仓库）
+Hard Requirement: call binaries directly in functions.shell, always set workdir, and avoid shell wrappers such as `bash -lc`, `sh -lc`, `zsh -lc`, `cmd /c`, `pwsh.exe -NoLogo -NoProfile -Command`, and `powershell.exe -NoLogo -NoProfile -Command`.
 
-- shell：直接调用二进制，必须设置 `workdir`；避免 `bash -lc`、`sh -lc`、`zsh -lc`、`cmd /c`、`pwsh.exe -NoLogo -NoProfile -Command` 等包装。
-- 文本编辑：常规模板改动使用 `apply_patch`；仅单行替换才考虑 `sed`；避免用 Python 临时脚本改文件。
-- `apply_patch` 调用：补丁作为第二个参数；必要时提供 `justification` 与 `workdir`。
+- Text Editing Priority: Use the `apply_patch` tool for all routine text edits; fall back to `sed` for single-line substitutions only if `apply_patch` is unavailable, and avoid `python` editing scripts unless both options fail.
+- `apply_patch` Usage: Invoke `apply_patch` with the patch payload as the second element in the command array (no shell-style flags). Provide `workdir` and, when helpful, a short `justification` alongside the command.
+
+- Example invocation:
+
+```bash
+{"command":["apply_patch","*** Begin Patch\n*** Update File: path/to/file\n@@\n- old\n+ new\n*** End Patch\n"],"workdir":"<workdir>","justification":"Brief reason for the change"}
+```

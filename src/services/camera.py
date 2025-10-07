@@ -8,11 +8,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
 
 import os
 import sys
-import platform
+import numpy as np
 
 # 尽量压制 OpenCV 的冗余日志
 os.environ.setdefault("OPENCV_LOG_LEVEL", "SILENT")
@@ -37,14 +36,14 @@ class CameraService:
     """
 
     def __init__(self) -> None:
-        self.cap: Optional[cv2.VideoCapture] = None
-        self.current_index: Optional[int] = None
+        self.cap: cv2.VideoCapture | None = None
+        self.current_index: int | None = None
 
     @staticmethod
-    def _backend_candidates() -> List[int]:
+    def _backend_candidates() -> list[int]:
         """后端优先级：尽量只尝试一次，减少控制台噪声。"""
         is_win = sys.platform.startswith("win")
-        cands: List[int] = []
+        cands: list[int] = []
         # 先让 OpenCV 自选一次（通常是 MSMF）；失败再回退到 DSHOW（Windows）
         if hasattr(cv2, "CAP_ANY"):
             cands.append(cv2.CAP_ANY)
@@ -53,7 +52,7 @@ class CameraService:
         return cands or [0]
 
     @staticmethod
-    def list_devices(max_devices: int = 1) -> List[CameraInfo]:
+    def list_devices(max_devices: int = 1) -> list[CameraInfo]:
         """保守返回默认摄像头，避免枚举导致的多后端 WARN。
 
         后续若需要精确枚举，再按平台能力增强。
@@ -63,8 +62,8 @@ class CameraService:
     def open(
         self,
         index: int,
-        resolution: Tuple[int, int] | None = None,
-        fourcc: Optional[str] = None,
+        resolution: tuple[int, int] | None = None,
+        fourcc: str | None = None,
     ) -> bool:
         """打开指定索引的设备，可选设置分辨率与像素格式（FOURCC）。
 
@@ -78,7 +77,11 @@ class CameraService:
         backends = self._backend_candidates()
         cap = None
         for be in backends:
-            cap = cv2.VideoCapture(index) if (be == getattr(cv2, "CAP_ANY", 0)) else cv2.VideoCapture(index, be)
+            cap = (
+                cv2.VideoCapture(index)
+                if (be == getattr(cv2, "CAP_ANY", 0))
+                else cv2.VideoCapture(index, be)
+            )
             if cap is not None and cap.isOpened():
                 break
             if cap is not None:
@@ -111,7 +114,7 @@ class CameraService:
             self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, float(h))
         return True
 
-    def get_reported_props(self) -> Tuple[int, int, float]:
+    def get_reported_props(self) -> tuple[int, int, float]:
         """返回当前设备回报的 (width, height, fps)。失败返回 0 值。"""
 
         if self.cap is None:
@@ -135,7 +138,7 @@ class CameraService:
         self.cap = None
         self.current_index = None
 
-    def read(self) -> Tuple[bool, Optional["np.ndarray"]]:
+    def read(self) -> tuple[bool, np.ndarray | None]:
         """读取一帧图像。
 
         返回 (ok, frame)。失败时 frame 为 None。

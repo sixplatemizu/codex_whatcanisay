@@ -1,13 +1,18 @@
-import io, re
+# ruff: noqa: E501
 
-p = 'src/app/main.py'
-s = io.open(p,'r',encoding='utf-8',errors='replace').read()
-start = s.find('def infer_loop()')
+p = "src/app/main.py"
+with open(p, encoding="utf-8", errors="replace") as _f:
+    s = _f.read()
+start = s.find("def infer_loop()")
 if start == -1:
-    print('infer_loop not found')
+    print("infer_loop not found")
     raise SystemExit(1)
 # Heuristic end: before '\n    # 校准事件处理' or '\n    # \' (layout marker) or 'start_btn.on_click'
-end_markers = ['\n    # 校准事件处理', '\n    start_btn.on_click', '\n    # \xe9\x83\xa8\xe5\xb1\x80']
+end_markers = [
+    "\n    # 校准事件处理",
+    "\n    start_btn.on_click",
+    "\n    # \xe9\x83\xa8\xe5\xb1\x80",
+]
 end = -1
 for m in end_markers:
     pos = s.find(m, start)
@@ -15,13 +20,13 @@ for m in end_markers:
         end = pos
         break
 if end == -1:
-    print('end marker not found')
+    print("end marker not found")
     raise SystemExit(2)
 
 prefix = s[:start]
 suffix = s[end:]
 
-new_body = '''def infer_loop() -> None:
+new_body = """def infer_loop() -> None:
         nonlocal state
         tracker: Optional[FaceTracker] = None
         last_ui = 0.0
@@ -152,8 +157,9 @@ new_body = '''def infer_loop() -> None:
         finally:
             if tracker is not None:
                 tracker.close()
-'''
+"""
 
 new_s = prefix + new_body + suffix
-io.open(p,'w',encoding='utf-8',newline='').write(new_s)
-print('infer_loop replaced')
+with open(p, "w", encoding="utf-8", newline="") as _f:
+    _f.write(new_s)
+print("infer_loop replaced")

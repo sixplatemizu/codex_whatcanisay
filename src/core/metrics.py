@@ -95,4 +95,3 @@ def compute_metrics_for_rois(
         lat = compute_first_fixation_latency(gaze_series, r, min_fix_ms=min_fix_ms)
         out[r.name] = {"dwell_ms": dwell, "first_fix_ms": lat}
     return out
-

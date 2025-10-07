@@ -175,8 +175,10 @@ def main(page: ft.Page) -> None:
     cal_sample_btn = ft.OutlinedButton("采样", icon="add_task", disabled=True)
     cal_fit_btn = ft.FilledButton("完成校准", icon="check_circle", disabled=True)
 
+    # 采集与任务相关按钮统一初始化
     start_btn = ft.ElevatedButton("启动", icon="play_arrow")
     stop_btn = ft.OutlinedButton("停止", icon="stop", disabled=True)
+    task_btn = ft.FilledButton("开始任务", icon="flag")
 
     def parse_device_value(val: str) -> int:
         try:
@@ -224,7 +226,9 @@ def main(page: ft.Page) -> None:
         state.gaze_series = []
         state.session_logger = SessionLogger()
         try:
-            state.session_logger.set_device_info(index=device_idx, requested=f"{res[0]}x{res[1]}", fourcc=state.fourcc)
+            state.session_logger.set_device_info(
+                index=device_idx, requested=f"{res[0]}x{res[1]}", fourcc=state.fourcc
+            )
         except Exception:
             pass
         # 回填实际分辨率到下拉（若可读）
@@ -234,7 +238,9 @@ def main(page: ft.Page) -> None:
                 res_dd.value = f"{rw}x{rh}"
             except Exception:
                 pass
-        status_text.value = f"采集中（设备 {device_idx}，请求 {res[0]}x{res[1]}，实际/驱动 FPS 检测中…）"
+        status_text.value = (
+            f"采集中（设备 {device_idx}，请求 {res[0]}x{res[1]}，实际/驱动 FPS 检测中…）"
+        )
         start_btn.disabled = True
         # 严格模式：未完成校准前禁用追踪开关
         try:
@@ -300,9 +306,7 @@ def main(page: ft.Page) -> None:
                 if not state.reported_resolution:
                     h, w = frame.shape[:2]
                     rw, rh, r_fps = cam.get_reported_props()
-                    status_text.value = (
-                        f"采集中（设备 {state.device_idx}，请求 {state.requested_resolution[0]}x{state.requested_resolution[1]}，实际 {w}x{h}，驱动FPS {r_fps:.0f}）"
-                    )
+                    status_text.value = f"采集中（设备 {state.device_idx}，请求 {state.requested_resolution[0]}x{state.requested_resolution[1]}，实际 {w}x{h}，驱动FPS {r_fps:.0f}）"
                     state.reported_resolution = True
                 # 将帧放入队列（保留最新，丢弃旧帧）
                 try:
@@ -339,7 +343,9 @@ def main(page: ft.Page) -> None:
                     frame = cv2.flip(frame, 1)
                 if tracker is None:
                     try:
-                        tracker = FaceTracker(infer_width=state.infer_width, smooth_iris=True, smooth_alpha=0.6)
+                        tracker = FaceTracker(
+                            infer_width=state.infer_width, smooth_iris=True, smooth_alpha=0.6
+                        )
                     except Exception as ex:
                         tracker = None
                         track_switch.value = False
@@ -362,29 +368,64 @@ def main(page: ft.Page) -> None:
                             if state.cal_targets and state.cal_idx < len(state.cal_targets):
                                 tu, tv = state.cal_targets[state.cal_idx]
                                 cx, cy = int(tu * w0), int(tv * h0)
-                                cv2.circle(frame, (cx, cy), 8, (0, 170, 255), thickness=2, lineType=cv2.LINE_AA)
+                                cv2.circle(
+                                    frame,
+                                    (cx, cy),
+                                    8,
+                                    (0, 170, 255),
+                                    thickness=2,
+                                    lineType=cv2.LINE_AA,
+                                )
                             if state.task_running and state.rois:
                                 for r in state.rois or []:
-                                    x0 = int(r.x0 * w0); y0 = int(r.y0 * h0)
-                                    x1 = int(r.x1 * w0); y1 = int(r.y1 * h0)
-                                    cv2.rectangle(frame, (x0, y0), (x1, y1), (100, 200, 255), 2, lineType=cv2.LINE_AA)
-                            if state.cal_collect_frames_remaining and state.cal_collect_frames_remaining > 0 and iris_px is not None:
+                                    x0 = int(r.x0 * w0)
+                                    y0 = int(r.y0 * h0)
+                                    x1 = int(r.x1 * w0)
+                                    y1 = int(r.y1 * h0)
+                                    cv2.rectangle(
+                                        frame,
+                                        (x0, y0),
+                                        (x1, y1),
+                                        (100, 200, 255),
+                                        2,
+                                        lineType=cv2.LINE_AA,
+                                    )
+                            if (
+                                state.cal_collect_frames_remaining
+                                and state.cal_collect_frames_remaining > 0
+                                and iris_px is not None
+                            ):
                                 if state.cal_collect_buffer is None:
                                     state.cal_collect_buffer = []
                                 state.cal_collect_buffer.append(iris_px)
                                 state.cal_collect_frames_remaining -= 1
-                                if state.cal_collect_frames_remaining <= 0 and state.cal_collect_buffer:
+                                if (
+                                    state.cal_collect_frames_remaining <= 0
+                                    and state.cal_collect_buffer
+                                ):
                                     xs = [p[0] for p in state.cal_collect_buffer]
                                     ys = [p[1] for p in state.cal_collect_buffer]
                                     avg_src = (float(sum(xs) / len(xs)), float(sum(ys) / len(ys)))
-                                    if state.cal_targets and state.cal_idx < len(state.cal_targets) and state.calibrator is not None:
+                                    if (
+                                        state.cal_targets
+                                        and state.cal_idx < len(state.cal_targets)
+                                        and state.calibrator is not None
+                                    ):
                                         dst_uv = state.cal_targets[state.cal_idx]
                                         state.calibrator.add_sample(avg_src, dst_uv)
                                         state.cal_idx += 1
-                                        status_text.value = f"已采样 {state.calibrator.num_samples} 个点"
+                                        status_text.value = (
+                                            f"已采样 {state.calibrator.num_samples} 个点"
+                                        )
                                         try:
-                                            cal_sample_btn.disabled = False if state.cal_idx < len(state.cal_targets) else True
-                                            cal_fit_btn.disabled = False if state.calibrator.num_samples >= 3 else True
+                                            cal_sample_btn.disabled = (
+                                                False
+                                                if state.cal_idx < len(state.cal_targets)
+                                                else True
+                                            )
+                                            cal_fit_btn.disabled = (
+                                                False if state.calibrator.num_samples >= 3 else True
+                                            )
                                         except Exception:
                                             pass
                                         page.update()
@@ -410,7 +451,14 @@ def main(page: ft.Page) -> None:
                             if gaze_dot_switch.value:
                                 try:
                                     gx, gy = int(u * w0), int(v * h0)
-                                    cv2.circle(frame, (gx, gy), 5, (0, 255, 255), thickness=-1, lineType=cv2.LINE_AA)
+                                    cv2.circle(
+                                        frame,
+                                        (gx, gy),
+                                        5,
+                                        (0, 255, 255),
+                                        thickness=-1,
+                                        lineType=cv2.LINE_AA,
+                                    )
                                 except Exception:
                                     pass
                         else:
@@ -422,7 +470,9 @@ def main(page: ft.Page) -> None:
                             state.task_running = False
                             try:
                                 if state.rois:
-                                    result = compute_metrics_for_rois(state.gaze_series, state.rois, min_fix_ms=120.0)
+                                    result = compute_metrics_for_rois(
+                                        state.gaze_series, state.rois, min_fix_ms=120.0
+                                    )
                                     status_text.value = (
                                         f"任务结束 | 左停留 {int(result['left']['dwell_ms'])}ms, 右停留 {int(result['right']['dwell_ms'])}ms; "
                                         f"左首注 {result['left']['first_fix_ms']}ms, 右首注 {result['right']['first_fix_ms']}ms"
@@ -488,7 +538,9 @@ def main(page: ft.Page) -> None:
             status_text.value = "采样完成：请点击完成校准"
             try:
                 cal_sample_btn.disabled = True
-                cal_fit_btn.disabled = state.calibrator.num_samples < 3 if state.calibrator else True
+                cal_fit_btn.disabled = (
+                    state.calibrator.num_samples < 3 if state.calibrator else True
+                )
             except Exception:
                 pass
             page.update()
@@ -604,7 +656,7 @@ def main(page: ft.Page) -> None:
     cal_sample_btn.on_click = on_cal_sample
     cal_fit_btn.on_click = on_cal_fit
     strict_switch.on_change = on_strict_change
-    
+
     # 任务开始：左右 ROI 极简任务（10 秒）
     def on_task_start(e: ft.ControlEvent) -> None:
         # 严格模式需先完成校准
@@ -638,6 +690,7 @@ def main(page: ft.Page) -> None:
             pass
         page.update()
 
+    # 绑定任务按钮事件（控件已在上文统一初始化）
     task_btn.on_click = on_task_start
 
     # 布局
@@ -652,8 +705,6 @@ def main(page: ft.Page) -> None:
         wrap=True,
         run_spacing=8,
     )
-
-    task_btn = ft.FilledButton("开始任务", icon="flag")
 
     actions_row = ft.Row(
         controls=[start_btn, stop_btn, cal_start_btn, cal_sample_btn, cal_fit_btn, task_btn],

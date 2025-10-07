@@ -20,6 +20,7 @@ os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")  # 0=all,1=INFO,2=WARNING,3=E
 os.environ.setdefault("GLOG_minloglevel", "2")
 try:
     from absl import logging as absl_logging  # type: ignore
+
     absl_logging.set_verbosity(absl_logging.ERROR)
     absl_logging.use_absl_handler()
 except Exception:
@@ -95,7 +96,10 @@ class FaceTracker:
         self.smooth_iris = bool(smooth_iris)
         self._iris_smoothers: Optional[List[PointSmoother]] = None
         if self.smooth_iris:
-            self._iris_smoothers = [PointSmoother(alpha=smooth_alpha), PointSmoother(alpha=smooth_alpha)]
+            self._iris_smoothers = [
+                PointSmoother(alpha=smooth_alpha),
+                PointSmoother(alpha=smooth_alpha),
+            ]
 
     def close(self) -> None:
         try:
@@ -123,6 +127,7 @@ class FaceTracker:
 
         # 仅取第一张人脸
         lms = res.multi_face_landmarks[0].landmark
+
         def to_px(idx: int) -> Tuple[int, int]:
             # 归一化坐标 → 原始帧像素坐标
             x = int(lms[idx].x * w0)
@@ -181,10 +186,12 @@ class FaceTracker:
         color_box: Tuple[int, int, int] = (0, 170, 255),
     ) -> None:
         """在帧上叠加可视化图层（原地修改）。"""
-        for (x, y) in tr.points:
+        for x, y in tr.points:
             cv2.circle(frame_bgr, (x, y), 2, color_points, thickness=-1, lineType=cv2.LINE_AA)
-        for (x, y) in tr.iris_centers:
+        for x, y in tr.iris_centers:
             cv2.circle(frame_bgr, (x, y), 3, color_iris, thickness=-1, lineType=cv2.LINE_AA)
         if tr.face_box is not None:
             x, y, w, h = tr.face_box
-            cv2.rectangle(frame_bgr, (x, y), (x + w, y + h), color_box, thickness=1, lineType=cv2.LINE_AA)
+            cv2.rectangle(
+                frame_bgr, (x, y), (x + w, y + h), color_box, thickness=1, lineType=cv2.LINE_AA
+            )
