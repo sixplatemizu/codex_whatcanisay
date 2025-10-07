@@ -369,7 +369,7 @@ def main(page: ft.Page) -> None:
                                     iris_px = None
                                 state.last_iris_px = iris_px
                                 # 校准目标指示与采样
-                                try:
+                                
                                     h0, w0 = frame.shape[:2]
                                 if state.cal_targets and state.cal_idx < len(state.cal_targets):
                                     tu, tv = state.cal_targets[state.cal_idx]
@@ -402,8 +402,8 @@ def main(page: ft.Page) -> None:
                                                     try:
                                                         cal_sample_btn.disabled = False if state.cal_idx < len(state.cal_targets) else True
                                                         cal_fit_btn.disabled = False if state.calibrator.num_samples >= 3 else True
-                                                    except Exception:
-                                                        pass
+
+
                                                     page.update()
                                                 state.cal_collect_buffer = None
                                 except Exception:
